@@ -2,8 +2,11 @@
 name = "revou-final-project-repositories"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Alvido Faisal <alvidofaisal@gmail.com>"]
 readme = "README.md"
+include = ["src/**/*"]
+package-mode = falseso
+
 
 [tool.poetry.dependencies]
 python = "^3.11"
