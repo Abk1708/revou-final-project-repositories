@@ -3,42 +3,38 @@ import requests
 
 app = Flask(__name__)
 
-# Tech category in the news portals
-tech_categories = ['Techno', 'Tekno', 'Teknologi']
+technology_categories = ['teknologi', 'tekno', 'techno']
 
-# Take the endpoint and parameters as arguments, and make the API call..
-def call_api(endpoint, params): 
-    url =f'https://berita-indo-api-next.vercel.app/api/{endpoint}'
+def call_api(endpoint, params):
+    url = f'https://berita-indo-api-next.vercel.app/{endpoint}'
     response = requests.get(url, params=params)
     return response.json()
 
-# ..then, call this function in a loop
 @app.route('/api/get_news')
 def get_news():
     params = {
-        'keywords': 'perkembangan+teknologi,desa,pedesaan,teknologi+digital,daerah+terpencil,transformasi+digital,era+digital,teknologi+informasi+dan+komunikasi,pendidikan+daring,keterampilan+digital,peningkatan+kemampuan+menulis,media+teknologi,pembelajaran+daring,beasiswa,teknologi+informasi+dan+komunikasi,masyarakat+umum'
+        'keywords': 'perkembangan+teknologi,desa,pedesaan,teknologi+digital,daerah+terpencil,transformasi+digital,era+digital,teknologi+informasi+dan+komunikasi,pendidikan+daring,keterampilan+digital,peningkatan+kemampuan+menulis,media+teknologi,pembelajaran+daring,beasiswa,teknologi+informasi+dan+komunikasi,masyarakat+umum',
+        'region': 'Indonesia'
     }
-    
-    ## Fetch list of news portals from API (try GET request to root or ../api/endpoints or ../api/news-sources)
-    portal_response = requests.get(f'https://berita-indo-api-next.vercel.app/api/')
-    news_portals = portal_response.json()
 
-    ## Exclude specific news portals with outlier categories
-    excluded_portals = [
-        'cnbc-news', 'republika-news', 'kumparan-news', 'tribun-news' 'vice-news', 'suara-news', 'voa-news'
-    ]
-    news_portals = [portal for portal in news_portals if portal not in excluded_portals]
+    # Fetch list of news portals from API
+    portal_response = requests.get('https://berita-indo-api-next.vercel.app/api/')
+    data = portal_response.json()
 
-    ## Fetch news data for Technology category
+    # Exclude specific news portals
+    excluded_portals = ['cnbc-news', 'republika-news', 'bbc-news', 'kumparan-news', 'tribun-news','vice-news', 'suara-news', 'voa-news']
+    news_portals = [portal for portal in data['data'] if portal not in excluded_portals]
+
+    # Fetch news data for Technology category
     news_data = []
     for portal in news_portals:
-        for category in tech_categories:
-            data = call_api(f'{portal}/{category}', params)
-            news_data.extend(data)
-    
+        for category in technology_categories:
+            if 'type' in data['data'][portal]:
+                endpoint = data['data'][portal]['type'].replace(':type', category)
+                response_data = call_api(endpoint, params)
+                if 'data' in response_data:  # Check if 'data' key exists
+                    news_data.extend(response_data['data'])
     return jsonify(news_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-    
