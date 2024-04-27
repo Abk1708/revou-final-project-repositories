@@ -8,7 +8,7 @@ const Navigation = () => {
     };
 
     return (
-        <nav className="flex flex-col bg-white dark:bg-gray-900 w-full h-16 top-0 start-0 z-0 border-b border-gray-100 dark:border-gray-600">
+        <nav className="flex flex-col bg-white dark:bg-gray-900 z-0 w-full h-16 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
             <div className="flex justify-between items-center h-full px-4"> {/* Add this container */}
                 <div className="flex flex-row-reverse items-center h-16"> {/* Show on mobile */}
                     <div className='flex'>
@@ -29,11 +29,10 @@ const Navigation = () => {
                     </div>
                     </div>
                 </div>
-                <div className="hidden md:flex items-center space-x-3 rtl:space-x-reverse"> {/* Show on tablet and larger */}
+                <div className="hidden md:flex items-center space-x-3 rtl:space-x-reverse"> {/* tablet and larger */}
                     <img src="/logo-no-background.png" className="h-14" alt="Tech for Village Logo"/>
-                    {/* <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Tech For Village</span> */}
-                </div>
-                <div className="hidden md:flex gap-5 items-center"> {/* Show on laptop or larger */}
+                    {/* <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Tech For Village</span>  siapa tau butuh*/}                 </div>
+                <div className="hidden md:flex gap-5 items-center"> {/* laptop or larger */}
                 <a href="#" className="text-gray-900 rounded hover:bg-gray-100 hover:text-white md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Home</a>
             <a href="#" className="text-gray-900 rounded hover:bg-gray-100 hover:text-white md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
             <a href="#" className="text-gray-900 rounded hover:bg-gray-100 hover:text-white md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Service's</a>

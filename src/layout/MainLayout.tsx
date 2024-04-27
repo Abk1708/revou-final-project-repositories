@@ -7,16 +7,16 @@ interface LayoutProps {
 }
 
 const MainLayout = ({children}:LayoutProps) => {
-  return (
-  <div>
-    <div className="flex flex-col h-screen">
-        <Navigation />
-        <div className="flex-1">
-            {children}
+return (
+    <div>
+        <div className="flex flex-col h-screen">
+            <Navigation />
+            <div className="flex-1">
+                {children}
+            </div>
         </div>
     </div>
-  </div>
-  )
+)
 }
 
 export default MainLayout
