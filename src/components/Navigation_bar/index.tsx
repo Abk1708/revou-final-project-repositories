@@ -10,21 +10,23 @@ const Navigation = () => {
     return (
         <nav className="bg-white dark:bg-gray-900 fixed w-full h-16 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
             <div className="flex justify-between items-center h-full px-4"> {/* Add this container */}
-                <div className="flex items-center h-20"> {/* Show on mobile */}
-                    <div className='flex flex-row gap-x-52'>
+                <div className="flex flex-row-reverse items-center h-16"> {/* Show on mobile */}
+                    <div className='flex'>
                     <a href="http://localhost:5173/" className="block md:hidden flex items-center space-x-3 rtl:space-x-reverse">
                         <img src="/logo-no-background.png" className="h-14 rounded-xl" alt="Tech for Village Logo"/> 
                         {/* <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Tech For Village</span> */}
                     </a>
-                    <button 
-                        type="button"
-                        className=" mx-10 block md:hidden text-gray-900 dark:text-white"
-                        onClick={handleToggleMenu}
-                    >
-                        <svg className="w-6 h-14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                    </button>
+                    <div>
+                        <button 
+                            type="button"
+                            className=" mx-10 block md:hidden text-gray-900 dark:text-white"
+                            onClick={handleToggleMenu}
+                        >
+                            <svg className="w-6 h-14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
                     </div>
                 </div>
                 <div className="hidden md:flex items-center space-x-3 rtl:space-x-reverse"> {/* Show on tablet and larger */}
