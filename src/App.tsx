@@ -1,13 +1,13 @@
 // import './App.css'
-import Navigation from './components/Navigation_bar'
+import MainLayout from "./layout/MainLayout";
+import Header from "./view/headerSection";
 
 function App() {
 
   return (
-    <main>
-      <Navigation/>
-    </main>
-    
+    <MainLayout>
+      <Header/>
+    </MainLayout>
   )
 }
 
