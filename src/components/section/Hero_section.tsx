@@ -19,8 +19,8 @@ const HeroSection: React.FC = () => {
     const heroTl = gsap.timeline({
       scrollTrigger: {
         trigger: heroRef.current,
-        start: 'top top',
-        end: 'bottom bottom',
+        start: 'top botom',
+        end: 'bottom top',
         scrub: true
       }
     });
@@ -41,7 +41,7 @@ const HeroSection: React.FC = () => {
       });
 
       
-      sectionTl.fromTo(section, { opacity: 0, y: '50%' }, { opacity: 1, y: '0%' });
+      sectionTl.fromTo(section, { opacity: 0, y: '20%' }, { opacity: 1, y: '0%' });
 
       // Animation for button in the first section
       if (index === 0) {
@@ -55,29 +55,30 @@ const HeroSection: React.FC = () => {
   }, []);
 
   return (
-    <div className='flex flex-row'> 
+    <div className='flex flex-col'> 
       <div>
-      <div
-        className="bg-cover bg-center z-1 py-52 relative"
-        ref={heroRef}
-        style={{
-          backgroundImage: `url(${HeroBackground})`, // Use the imported photo file
-        }}
-      >
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center relative z-10">
-            <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl">
-              Welcome to Smart Village
-            </h1>
-            <p className="mt-4 text-lg leading-6 text-white">
-              Empowering communities with technology for a brighter future
-            </p>
-            <button
-            ref={(el) => buttonRefs.current[0] = el}
-            className="mt-8 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-md transition duration-300">
-              Learn More
-            </button>
-          </div>
+        <div
+          className="bg-cover bg-center z-1 py-52 relative"
+          ref={heroRef}
+          style={{
+            backgroundImage: `url(${HeroBackground})`, // Use the imported photo file
+          }}
+          >
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center relative z-10">
+              <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl">
+                We Are, Tech For Village
+              </h1>
+              <p className="mt-4 text-lg leading-6 text-white">
+                Empowering communities with technology for a brighter future
+                Because We Belive, Smart Technology is for Everyone
+              </p>
+              <button
+              ref={(el) => buttonRefs.current[0] = el}
+              className="mt-8 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-md transition duration-300 hover:animate-bounce">
+                Learn More
+              </button>
+            </div>
         </div>
       </div>
       </div>
