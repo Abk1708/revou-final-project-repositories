@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "revou-final-project-repositories"
+version = "0.1.0"
+description = ""
+authors = ["Alvido Faisal <alvidofaisal@gmail.com>"]
+readme = "README.md"
+include = ["src/**/*"]
+package-mode = falseso
+
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Flask = "^3.0.3"
+SQLAlchemy = "^2.0.29"
+mysqlclient = "^2.2.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
