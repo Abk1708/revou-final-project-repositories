@@ -21,8 +21,8 @@ login_manager.init_app(app)
 def index():
     return render_template('index.html')
 
-app.register_blueprint(auth_bp, url_prefix='/api')  
-app.register_blueprint(news_bp, url_prefix='/api')  
+app.register_blueprint(auth_bp, url_prefix='/auth')  
+app.register_blueprint(news_bp, url_prefix='/news')  
 
 if __name__ == '__main__':
     app.run(debug=True)

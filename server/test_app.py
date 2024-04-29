@@ -28,7 +28,7 @@ def client():
 
 # Register test
 def test_register(client):
-    response = client.post('/api/register',
+    response = client.post('/auth/register',
     data=dict(
         username='test',
         password='test'
@@ -40,7 +40,7 @@ def test_register(client):
     
 # Login test
 def test_login(client):
-    response = client.post('/api/login', 
+    response = client.post('/auth/login', 
     data=dict(
         username='dummy',
         password='dummy'
@@ -53,14 +53,14 @@ def test_login(client):
 # Logout test
 def test_logout(client):
     # Log in the user
-    client.post('/api/login', 
+    client.post('/auth/login', 
     data=dict(
         username='dummy',
         password='dummy'
     ))
 
     # Now try to log out
-    response = client.get('/api/logout')
+    response = client.get('/auth/logout')
     
     assert response.status_code == 200
     assert b'success' in response.data
