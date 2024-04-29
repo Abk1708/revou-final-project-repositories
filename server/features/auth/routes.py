@@ -3,7 +3,7 @@ from flask_login import LoginManager, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from . import auth_bp as auth
 from .models import User
-from server import db
+from database import db
 
 
 # Create an object of LoginManager for user authentication
@@ -27,8 +27,7 @@ def login():
         
         # check if the user is actually exist
         if not user or not check_password_hash(user.password_hash, password):
-            flash('Please check your login details and try again')
-            return redirect(url_for('auth.login'))
+            return jsonify(success=False, message='Please check your login details and try again'), 400
         
         # if the above check passes, user has the right credentials
         login_user(user)
@@ -54,8 +53,6 @@ def register():
         db.session.commit()
         
         return jsonify(success=True, message='Account created successfully'), 201
-    
-    return
     
 
 @auth.route('/logout')

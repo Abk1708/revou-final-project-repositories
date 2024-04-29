@@ -1,23 +1,68 @@
+from flask import url_for
 import pytest
-from pytest_mock import mocker
-from server.app import app
-from flask import json
+from app import app, db
+from features.auth.models import User, generate_password_hash
 
+
+# Setup for test client
 @pytest.fixture
 def client():
-    with app.test_client() as client:
-        yield client
+    app.config['TESTING'] = True
+    client = app.test_client()
+    
+    with app.app_context():
+        db.create_all()
 
+        # Create a dummy user
+        dummy_user = User(username='dummy', password_hash=generate_password_hash('dummy', method='sha256'))
+        db.session.add(dummy_user)
+        db.session.commit()
 
+    yield client
+    
+    with app.app_context():
+        db.drop_all()
+        
 
-############ News API Test ############ 
+########## AUTH TEST ##########
 
-def test_get_news(client):
-    response = client.get('/api/get_news')
-    data = json.loads(response.data)
+# Register test
+def test_register(client):
+    response = client.post('/api/register',
+    data=dict(
+        username='test',
+        password='test'
+    ))
+    
+    
+    assert response.status_code == 201
+    assert b'Account created successfully' in response.data
+    
+# Login test
+def test_login(client):
+    response = client.post('/api/login', 
+    data=dict(
+        username='dummy',
+        password='dummy'
+    ))
+    print(response.data) # Debug
+    
     assert response.status_code == 200
+    assert b'success' in response.data
+    
+# Logout test
+def test_logout(client):
+    # Log in the user
+    client.post('/api/login', 
+    data=dict(
+        username='dummy',
+        password='dummy'
+    ))
 
-def test_get_news_with_error(client, mocker):
-    mocker.patch('requests.get', side_effect=Exception('Mocked error'))
-    response = client.get('/api/get_news')
-    assert response.status_code == 500
+    # Now try to log out
+    response = client.get('/api/logout')
+    
+    assert response.status_code == 200
+    assert b'success' in response.data
+
+

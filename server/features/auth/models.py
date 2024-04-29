@@ -1,4 +1,4 @@
-from server import db
+from database import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model):
@@ -11,3 +11,16 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+    @property
+    def is_active(self):
+        # This should return True if the user's account is active.
+        return True
+    
+    def get_id(self):
+        return str(self.id) 
+    
+    @property
+    def is_authenticated(self):
+        # This should return True if the user is authenticated.
+        return True
