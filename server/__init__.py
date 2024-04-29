@@ -4,5 +4,5 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://tfv_admin:techforvillage@localhost/User'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://tfv_admin:techforvillage@localhost'
 db = SQLAlchemy(app)
