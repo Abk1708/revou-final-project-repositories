@@ -1,23 +1,17 @@
-from flask import Blueprint, jsonify
+from flask import jsonify
+from . import news_bp
 import requests
 import random
 
-# Create a Blueprint for the news feature
-news_bp = Blueprint('news', __name__)
 
 # Function to call an API endpoint and return the response data
 def call_api(endpoint):
     try:
-        # Construct the full URL for the API endpoint
         url = f'https://berita-indo-api-next.vercel.app/{endpoint}'
-        # Send a GET request to the API endpoint
         response = requests.get(url)
-        # Raise an exception if the response status code indicates an error
         response.raise_for_status()  
-        # Return the response data as a Python object
         return response.json()
     except requests.exceptions.RequestException as e:
-        # If an error occurs, return a dictionary with an "error" key
         return {"error": str(e)}
 
 # Define a route for getting news
@@ -46,9 +40,7 @@ def get_news():
         random.shuffle(endpoints)  
         news_data = []
         for endpoint in endpoints:
-            # Call the API endpoint and get the response data
             response_data = call_api(endpoint)
-            # If the response data contains a "data" key
             if 'data' in response_data:  
                 # Filter the news data by the keywords
                 filtered_data = [newsItem for newsItem in response_data['data'] if any(keyword.lower() in newsItem['title'].lower() or (keyword.lower() in newsItem['description'].lower() if 'description' in newsItem else False) for keyword in params['title'])]
@@ -58,8 +50,6 @@ def get_news():
         # Randomize the order of the news articles
         random.shuffle(news_data)  
 
-        # Return the news data as a JSON response
         return jsonify(news_data)
     except requests.exceptions.RequestException as e:
-        # If an error occurs, return a JSON response with an "error" key
         return jsonify({"error": str(e)})

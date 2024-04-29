@@ -1,13 +1,16 @@
 import pytest
 from pytest_mock import mocker
-import requests
-from app import app
+from server.app import app
 from flask import json
 
 @pytest.fixture
 def client():
     with app.test_client() as client:
         yield client
+
+
+
+############ News API Test ############ 
 
 def test_get_news(client):
     response = client.get('/api/get_news')
