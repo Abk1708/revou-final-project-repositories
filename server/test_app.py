@@ -2,12 +2,13 @@ from flask import url_for
 import pytest
 from app import app, db
 from features.auth.models import User, generate_password_hash
-
+from features.news.routes import call_api  # Assuming you want to mock this
 
 # Setup for test client
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'  # Use in-memory SQLite for tests
     client = app.test_client()
     
     with app.app_context():
@@ -22,7 +23,6 @@ def client():
     
     with app.app_context():
         db.drop_all()
-        
 
 ########## AUTH TEST ##########
 
@@ -34,7 +34,6 @@ def test_register(client):
         password='test'
     ))
     
-    
     assert response.status_code == 201
     assert b'Account created successfully' in response.data
     
@@ -45,7 +44,6 @@ def test_login(client):
         username='dummy',
         password='dummy'
     ))
-    print(response.data) # Debug
     
     assert response.status_code == 200
     assert b'success' in response.data
@@ -65,4 +63,23 @@ def test_logout(client):
     assert response.status_code == 200
     assert b'success' in response.data
 
+########## NEWS TEST ##########
 
+# Test the news API integration
+def test_get_news(client, monkeypatch):
+    # Mock the call_api function to return a predictable response
+    def mock_call_api(endpoint):
+        return {
+            'data': [
+                {'title': 'Smart Village Project Launched', 'description': 'A new tech initiative in rural areas.'},
+                {'title': 'Digital Infrastructure in Desa', 'description': 'Internet access is expanding.'}
+            ]
+        }
+    
+    monkeypatch.setattr('features.news.routes.call_api', mock_call_api)
+
+    response = client.get('/news/get_news')
+    
+    assert response.status_code == 200
+    assert b'Smart Village Project Launched' in response.data
+    assert b'Digital Infrastructure in Desa' in response.data
