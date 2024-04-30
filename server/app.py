@@ -1,11 +1,12 @@
 from flask import Flask, render_template
 from database import db
 from features.auth.routes import login_manager
+from features.news.routes import news_bp  # Import the Blueprint from the feature module
+
 import os
 
 # Import the Blueprint from the feature module
 from features.auth import auth_bp 
-from features.news import news_bp 
 
 app = Flask(__name__)
 
