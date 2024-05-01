@@ -20,8 +20,9 @@ def load_user(user_id):
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
         
         user = User.query.filter_by(username=username).first()
         
@@ -36,8 +37,9 @@ def login():
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
         
         user = User.query.filter_by(username=username).first()
         

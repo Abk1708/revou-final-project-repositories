@@ -16,6 +16,9 @@ app.config['SECRET_KEY'] = os.urandom(16)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://tfv_user:techforvillage@localhost/User'
 
 db.init_app(app)
+with app.app_context():
+    db.create_all()
+    
 login_manager.init_app(app)
 
 @app.route('/api')
