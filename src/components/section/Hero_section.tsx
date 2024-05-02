@@ -58,7 +58,7 @@ const HeroSection: React.FC = () => {
     <div className='flex flex-col'> 
       <div>
         <div
-          className="bg-cover bg-center z-1 py-52 relative"
+          className="bg-cover bg-center py-52"
           ref={heroRef}
           style={{
             backgroundImage: `url(${HeroBackground})`, // Use the imported photo file

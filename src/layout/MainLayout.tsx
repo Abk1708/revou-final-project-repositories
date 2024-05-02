@@ -1,4 +1,5 @@
 import Navigation from "../components/Navigation_bar"
+import HeroSection from "../components/section/Hero_section"
 
 
 
@@ -9,9 +10,10 @@ interface LayoutProps {
 const MainLayout = ({children}:LayoutProps) => {
 return (
     <div>
-        <div className="flex flex-col h-screen">
+        <div className="h-screen relative">
             <Navigation />
-            <div className="flex-1">
+            <HeroSection/>
+            <div className="relative">
                 {children}
             </div>
         </div>

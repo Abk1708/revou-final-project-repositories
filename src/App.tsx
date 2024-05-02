@@ -7,8 +7,8 @@ function App() {
 
   return (
     <MainLayout>
-      <Header/>
       <Hero_section/>
+      <Header/>
     </MainLayout>
   )
 }
