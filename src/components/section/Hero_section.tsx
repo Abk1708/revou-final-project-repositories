@@ -44,7 +44,7 @@ const HeroSection = () => {
     gsap.from(section2Ref.current, {
       opacity: 0,
       y: 500,
-      duration: 3,
+      duration: 1,
       scrollTrigger: {
         trigger: section2Ref.current!,
         start: "top bottom",
@@ -56,8 +56,8 @@ const HeroSection = () => {
 
     gsap.from(section3Ref.current, {
       opacity: 0,
-      y: 500,
-      duration: 1,
+      y:10,
+      duration: 3,
       scrollTrigger: {
         trigger: section1Ref.current!,
         start: "top bottom",
@@ -110,8 +110,8 @@ const HeroSection = () => {
         </div>
       </div>
       <div ref={section3Ref} className="text-center">
-        <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-          Section 1
+        <h2 className="text-3xl font-extrabold text-gray-500 sm:text-4xl">
+          Section 3 heading
         </h2>
         <p className="mt-4 text-lg leading-6 text-gray-200">
           <Section3 />
