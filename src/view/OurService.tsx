@@ -15,7 +15,7 @@ const OurService = () => {
 					Our Service
 				</h1>
 			</div>
-
+		{/* navigation breadcrumb */}
 			<nav className="text-sm font-medium mb-8" aria-label="Breadcrumb">
 				<ol className="list-none p-0 inline-flex">
 					<li className="flex items-center">
@@ -41,7 +41,7 @@ const OurService = () => {
 					</li>
 				</ol>
 			</nav>
-
+				{/* card */}
       <div className="flex overflow-x-auto">
         <div className="flex-none w-64 mr-4">
           <div className="service-description bg-green-800 text-center p-8 rounded-lg h-full">
@@ -59,7 +59,7 @@ const OurService = () => {
             </p>
           </div>
         </div>
-
+				{/* card */}
         <div className="flex-none w-64 mr-4">
           <div className="corousel bg-white shadow-md rounded-md overflow-hidden h-full">
             <img
@@ -141,7 +141,7 @@ const OurService = () => {
         </div>
       </div>
     </section>
-
+		{/* new section */}
 		<section className="bg-slate-800 px-4 py-12 md:px-8 lg:px-16 xl:px-20">
 			<div className="flex overflow-x-auto">
 				<div className="flex-none w-64 mr-4">
@@ -159,7 +159,7 @@ const OurService = () => {
 									Our Green House Initiative focus on creating more promise and
 									sustainable seeds and another hybrid.
 								</p>
-						<div className="mt-4">
+							<div className="mt-4">
 								<a
 									href="#"
 									className="bg-blue-500 rounded-lg px-5 py-2 hover:text-white font-semibold"
@@ -170,7 +170,7 @@ const OurService = () => {
 						</div>
 					</div>
 				</div>
-
+				{/* card */}
 				<div className="flex-none w-64 mr-4">
 					<div className="corousel bg-white shadow-md rounded-md overflow-hidden h-full">
 						<img
