@@ -26,7 +26,7 @@ def get_news():
             "Kemkominfo desa digital", "Kominfo pedesaan",
             "berita daerah", "berita lokal", "berita regional",  
             "pemerintah daerah", "kebijakan daerah", "perkembangan daerah",
-            "teknologi", "digital", "internet", "daerah", "desa", "pedesaan", "berita", "pemerintah", "kebijakan", "perkembangan"  # Additional keywords
+            "teknologi", "digital", "internet", # Additional keywords
         ],
     }
 
