@@ -4,11 +4,12 @@ import irrigationforservice from "../assets/lumin-osity-6DMht7wYt6g-unsplash.jpg
 import greenhouse from "../assets/devi-puspita-amartha-yahya-DViG1hfL1-w-unsplash.jpg";
 import Sustainable from '../assets/energy-control.png'
 import SolarCells from '../assets/nuno-marques-0GbrjL3vZF4-unsplash.jpg'
+import { Link } from "react-router-dom";
 
 const OurService = () => {
   return (
 		<div>
-						<section className="bg-slate-800 px-4 py-12 md:px-8 lg:px-16 xl:px-20">
+		<section className="bg-slate-800 px-4 py-12 md:px-8 lg:px-16 xl:px-20">
 			<div className="text-center mb-8">
 				<h1 className="text-3xl font-bold text-white sm:text-4xl">
 					Our Service
@@ -18,9 +19,9 @@ const OurService = () => {
 			<nav className="text-sm font-medium mb-8" aria-label="Breadcrumb">
 				<ol className="list-none p-0 inline-flex">
 					<li className="flex items-center">
-						<a href="#" className="text-gray-400 hover:text-gray-600">
+						<Link to="/" className="text-gray-400 hover:text-gray-600">
 							Home
-						</a>
+						</Link>
 						<svg
 							className="h-5 w-auto text-gray-400"
 							fill="none"
