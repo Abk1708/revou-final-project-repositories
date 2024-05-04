@@ -1,16 +1,19 @@
-// import './App.css'
-import MainLayout from "./layout/MainLayout";
-import Header from "./view/headerSection";
-import Hero_section from "./components/section/Hero_section";
+import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from '../src/view/HomePage';
 
 function App() {
-
   return (
-    <MainLayout>
-      <Hero_section/>
-      <Header/>
-    </MainLayout>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route 
+        path="/" 
+        element={
+            <HomePage/>
+        } />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

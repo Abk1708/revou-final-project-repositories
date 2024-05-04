@@ -1,5 +1,5 @@
 import Navigation from "../components/Navigation_bar"
-import HeroSection from "../components/section/Hero_section"
+
 
 
 
@@ -12,7 +12,6 @@ return (
     <div>
         <div className="h-screen relative">
             <Navigation />
-            <HeroSection/>
             <div className="relative">
                 {children}
             </div>
