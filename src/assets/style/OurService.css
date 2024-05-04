@@ -1,0 +1,37 @@
+#service_corousel{
+    background-color: black;
+    color: grey;
+    display: flex;
+    justify-content: space-between;
+    width: full;
+    height: 500px;
+    border: 2px solid black;
+    align-items: center;
+}
+
+.service-description{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 350px;
+    height: 500px;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+#corousel{
+    background-color: white;
+    justify-self: end;
+    padding:10px;
+    align-items: center;
+    width: 250px;
+    height: 450px;
+}
+
+#icon{
+    width: 100px;
+    height: 100px;
+    background-color: yellow;
+    border-radius: 30px;
+}
