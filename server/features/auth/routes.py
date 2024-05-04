@@ -17,45 +17,43 @@ login_manager.login_view = 'auth.login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth.route('/login', methods=['POST'])
 def login():
-    if request.method == 'POST':
-        data = request.get_json()
-        username = data.get('username')
-        password = data.get('password')
-        
-        user = User.query.filter_by(username=username).first()
-        
-        # check if the user is actually exist
-        if not user or not check_password_hash(user.password_hash, password):
-            return jsonify(success=False, message='Please check your login details and try again'), 400
-        
-        # if the above check passes, user has the right credentials
-        login_user(user)
-        return jsonify(success=True)
-
-@auth.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        data = request.get_json()
-        username = data.get('username')
-        password = data.get('password')
-        
-        user = User.query.filter_by(username=username).first()
-        
-        # if a username is already been used, redirect to signup page
-        if user:
-            return jsonify(success=False, message='Username already exists'), 400
-        
-        # create new user with the form data
-        new_user = User(username=username, password_hash=generate_password_hash(password, method='sha256'))
-        
-        # add the new user to the database
-        db.session.add(new_user)
-        db.session.commit()
-        
-        return jsonify(success=True, message='Account created successfully'), 201
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
     
+    user = User.query.filter_by(username=username).first()
+    
+    # check if the user is actually exist
+    if not user or not check_password_hash(user.password_hash, password):
+        return jsonify(success=False, message='Please check your login details and try again'), 400
+    
+    # if the above check passes, user has the right credentials
+    login_user(user)
+    return jsonify(success=True)
+
+@auth.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    
+    user = User.query.filter_by(username=username).first()
+    
+    # if a username is already been used, redirect to signup page
+    if user:
+        return jsonify(success=False, message='Username already exists'), 400
+    
+    # create new user with the form data
+    new_user = User(username=username, password_hash=generate_password_hash(password, method='sha256'))
+    
+    # add the new user to the database
+    db.session.add(new_user)
+    db.session.commit()
+    
+    return jsonify(success=True, message='Account created successfully'), 201
+
 
 @auth.route('/logout')
 @login_required

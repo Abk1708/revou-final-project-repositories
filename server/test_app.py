@@ -28,34 +28,25 @@ def client():
 
 # Register test
 def test_register(client):
-    response = client.post('/auth/register',
-    data=dict(
-        username='test',
-        password='test'
-    ))
-    
+    response = client.post('/auth/register', json=
+    {'username': 'test', 'password': 'test'})
+
     assert response.status_code == 201
     assert b'Account created successfully' in response.data
     
 # Login test
 def test_login(client):
-    response = client.post('/auth/login', 
-    data=dict(
-        username='dummy',
-        password='dummy'
-    ))
-    
+    response = client.post('/auth/login', json=
+    {'username': 'dummy', 'password': 'dummy'})
+
     assert response.status_code == 200
     assert b'success' in response.data
     
 # Logout test
 def test_logout(client):
     # Log in the user
-    client.post('/auth/login', 
-    data=dict(
-        username='dummy',
-        password='dummy'
-    ))
+    client.post('/auth/login', json=
+    {'username': 'dummy', 'password': 'dummy'})
 
     # Now try to log out
     response = client.get('/auth/logout')
