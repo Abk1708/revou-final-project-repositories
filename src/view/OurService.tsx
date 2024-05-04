@@ -152,14 +152,14 @@ const OurService = () => {
 							alt="Card"
 						/>
 						<div className="p-4">
-							<h2 className="text-xl font-semibold text-gray-800">
-								Green House Initiative
-							</h2>
-							<p className="mt-2 text-gray-600">
-								Our Green House Initiative focus on creating more promise and
-								sustainable seeds and another hybrid.
-							</p>
-							<div className="mt-4">
+								<h2 className="text-xl font-semibold text-gray-800">
+									Green House Initiative
+								</h2>
+								<p className="mt-2 text-gray-600">
+									Our Green House Initiative focus on creating more promise and
+									sustainable seeds and another hybrid.
+								</p>
+						<div className="mt-4">
 								<a
 									href="#"
 									className="bg-blue-500 rounded-lg px-5 py-2 hover:text-white font-semibold"
@@ -179,11 +179,11 @@ const OurService = () => {
 							alt="Card"
 						/>
 						<div className="p-4">
-							<h2 className="text-xl font-semibold text-gray-800">SollarCell and Panels</h2>
-							<p className="mt-2 text-gray-600">
-								Tractors powered with solar cell batteries, eco-friendly, and easy
-								maintenance.
-							</p>
+								<h2 className="text-xl font-semibold text-gray-800">SollarCell and Panels</h2>
+								<p className="mt-2 text-gray-600">
+									Tractors powered with solar cell batteries, eco-friendly, and easy
+									maintenance.
+								</p>
 							<div className="mt-4">
 								<a
 									href="#"
@@ -195,7 +195,7 @@ const OurService = () => {
 						</div>
 					</div>
 				</div>
-
+				{/* card */}
 				<div className="flex-none w-64 mr-4">
 					<div className="corousel bg-white shadow-md rounded-md overflow-hidden h-full">
 						<img
@@ -223,7 +223,7 @@ const OurService = () => {
 						</div>
 					</div>
 				</div>
-
+				{/* card */}
 				<div className="flex-none w-64 mr-4">
 					<div className="service-description bg-yellow-500 text-center p-8 rounded-lg h-full">
 						<h2 className="text-3xl font-extrabold text-black sm:text-4xl">
