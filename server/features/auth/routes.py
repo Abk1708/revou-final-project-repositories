@@ -8,6 +8,7 @@ from database import db
 from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Message
 from app import mail
+from flask_jwt import JWT, jwt_required, current_identity
 import enum
 import re
 
@@ -23,14 +24,29 @@ login_manager.login_view = 'auth.login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+def get_user_by_username(username):
+    return User.query.filter_by(username=username).first()
+
+# Check user credentials during login
+def authenticate(username, password):
+    user = get_user_by_username(username)
+    if user and check_password_hash(user.password_hash, password):
+        return user
+    
+def identity(payload):
+    user_id = payload['identity']
+    return User.query.get('user_id')
+    
+jwt = JWT(app, authenticate, identity)
+
 @auth.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
     
-    user = User.query.filter_by(username=username).first()
-    
+    user = get_user_by_username(username)
+        
     # check if the user is actually exist
     if not user or not check_password_hash(user.password_hash, password):
         return jsonify(success=False, message='Please check your login details and try again'), 400
@@ -51,8 +67,8 @@ def register():
         email = data.get('email')
         gender = Gender[data.get('gender')]
         
-        user = User.query.filter_by(username=username).first()
-    
+        user = get_user_by_username(username)    
+        
     # if a username is already been used, redirect to signup page
     if user:
         return jsonify(success=False, message='Username already exists'), 400
@@ -79,7 +95,7 @@ def register():
     ### (replace the noreply@demo.com)
     msg = Message('Confirm Email', sender='noreply@demo.com', recipients=[email])
     msg.body = 'Click on the link to confirm your email: {}'.format(url_for('auth.confirm_email', token=token, _external=True))
-    mail.send(msg)  ### import from app, delete after done
+    mail.send(msg)
     
     return jsonify(success=True, message='Account created successfully, please check your email to confirm your account'), 201
 

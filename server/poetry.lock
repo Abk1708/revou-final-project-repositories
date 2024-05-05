@@ -59,6 +59,20 @@ async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
 
 [[package]]
+name = "flask-jwt"
+version = "0.3.2"
+description = "JWT token authentication for Flask apps"
+optional = false
+python-versions = "*"
+files = [
+    {file = "Flask-JWT-0.3.2.tar.gz", hash = "sha256:49c0672fbde0f1cd3374bd834918d28956e3c521c7e00089cdc5380d323bd0ad"},
+]
+
+[package.dependencies]
+Flask = ">=0.9"
+PyJWT = ">=1.4.0,<1.5.0"
+
+[[package]]
 name = "flask-login"
 version = "0.6.3"
 description = "User authentication and session management for Flask."
@@ -345,6 +359,22 @@ dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
+name = "pyjwt"
+version = "1.4.2"
+description = "JSON Web Token implementation in Python"
+optional = false
+python-versions = "*"
+files = [
+    {file = "PyJWT-1.4.2-py2.py3-none-any.whl", hash = "sha256:99fe612dbe5f41e07124d9002c118c14f3ee703574ffa9779fee78135b8b94b6"},
+    {file = "PyJWT-1.4.2.tar.gz", hash = "sha256:87a831b7a3bfa8351511961469ed0462a769724d4da48a501cb8c96d1e17f570"},
+]
+
+[package.extras]
+crypto = ["cryptography"]
+flake8 = ["flake8", "flake8-import-order", "pep8-naming"]
+test = ["pytest (==2.7.3)", "pytest-cov", "pytest-runner"]
+
+[[package]]
 name = "pytest"
 version = "8.2.0"
 description = "pytest: simple powerful testing with Python"
@@ -499,4 +529,4 @@ email = ["email-validator"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "802069c69bb383b77fee8d4e28d8c66a698da63eaac6bb91d47deec7a33955a7"
+content-hash = "22eedfea280dccd7a315fb88a9860f6ab9afc442ebfab6d31ad1bfb700c248f0"

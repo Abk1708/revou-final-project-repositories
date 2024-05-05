@@ -19,6 +19,7 @@ werkzeug = "^3.0.2"
 flask-sqlalchemy = "^2.5.1"
 pytest = "^8.2.0"
 flask-mail = "^0.9.1"
+flask-jwt = "^0.3.2"
 
 
 [build-system]
