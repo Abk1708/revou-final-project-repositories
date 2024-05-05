@@ -1,9 +1,15 @@
-from flask import flash, jsonify, redirect, request, url_for
+from flask import app, flash, jsonify, redirect, request, url_for
 from flask_login import LoginManager, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from . import auth_bp as auth
-from .models import User
+from .forms import RegistrationForm
+from .models import User, Gender
 from database import db
+from itsdangerous import URLSafeTimedSerializer
+from flask_mail import Message
+from app import mail
+import enum
+import re
 
 
 # Create an object of LoginManager for user authentication
@@ -35,25 +41,67 @@ def login():
 
 @auth.route('/register', methods=['POST'])
 def register():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
-    
-    user = User.query.filter_by(username=username).first()
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
+        first_name = data.get('first_name')
+        last_name = data.get('last_name')
+        email = data.get('email')
+        gender = Gender[data.get('gender')]
+        
+        user = User.query.filter_by(username=username).first()
     
     # if a username is already been used, redirect to signup page
     if user:
         return jsonify(success=False, message='Username already exists'), 400
     
     # create new user with the form data
-    new_user = User(username=username, password_hash=generate_password_hash(password, method='sha256'))
+    new_user = User(
+        username=username, 
+        password_hash=generate_password_hash(password, method='sha256'),
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        gender=gender
+    )
     
     # add the new user to the database
     db.session.add(new_user)
     db.session.commit()
     
-    return jsonify(success=True, message='Account created successfully'), 201
+    # generate a confirmation token
+    s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+    token = s.dumps(email, salt='email-confirm')
+    
+    # send a confirmation email
+    msg = Message('Confirm Email', sender='noreply@demo.com', recipients=[email])
+    msg.body = 'Click on the link to confirm your email: {}'.format(url_for('auth.confirm_email', token=token, _external=True))
+    mail.send(msg)  ### import from app, delete after done
+    
+    return jsonify(success=True, message='Account created successfully, please check your email to confirm your account'), 201
 
+@auth.route('/confirm/<token>')
+def confirm_email(token):
+    # deserialize the token sent by email
+    try:
+        s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        email = s.loads(token, salt='email-confirm', max_age=3600) # Max. 1 hour
+    except:
+        return jsonify(success=False, message='The confirmation link is invalid or has been expired.'), 400
+    
+    # check for an email address match from a User
+    user = User.query.filter_by(email=email).first()
+    
+    if user.confirmed:
+        return jsonify(success=False, message='Account already confirmed'), 400
+    else: 
+        user.confirmed = True
+        db.session.add(user)
+        db.session.commit()
+        login_user(user)
+        return jsonify(success=True, message='You have confirmed your account. Thanks!'), 201
 
 @auth.route('/logout')
 @login_required
