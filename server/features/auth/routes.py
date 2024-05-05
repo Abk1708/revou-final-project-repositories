@@ -75,7 +75,8 @@ def register():
     s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     token = s.dumps(email, salt='email-confirm')
     
-    # send a confirmation email
+    # send a confirmation email 
+    ### (replace the noreply@demo.com)
     msg = Message('Confirm Email', sender='noreply@demo.com', recipients=[email])
     msg.body = 'Click on the link to confirm your email: {}'.format(url_for('auth.confirm_email', token=token, _external=True))
     mail.send(msg)  ### import from app, delete after done

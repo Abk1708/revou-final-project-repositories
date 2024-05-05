@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationError
 import re
-from .models import Gender
+from .models import Gender, User
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=4, max=20)])
@@ -22,3 +22,8 @@ def validate_password(self, password):
         raise ValidationError('Password must contain at least one uppercase letter.')
     if not re.search(r'\d', password.data):
         raise ValidationError('Password must contain at least one number.')
+    
+def validate_email(self, email):
+    user = User.query.filter_by(email=email.data).first()
+    if user:
+        raise ValidationError('That email is taken. Please choose a different one.')
