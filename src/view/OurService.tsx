@@ -6,6 +6,8 @@ import Sustainable from '../assets/energy-control.png';
 import SolarCells from '../assets/nuno-marques-0GbrjL3vZF4-unsplash.jpg';
 import Breadcrumb from "../components/BreadCrumbs/BreadCrumbs";
 import Card from "../components/CardItems/CardItems";
+import sdgEmblems from '../assets/E_SDG_logo_without_UN_emblem_Square_WEB.png.png'
+import Sdg from "../components/SDG-icon/Sdg";
 
 const OurService = () => {
 
@@ -39,9 +41,9 @@ const OurService = () => {
   },
   ]
 
-const CardRenderEnergy = [
+// const CardRenderEnergy = [
   
-]
+// ]
 
 
   return (
@@ -84,9 +86,19 @@ const CardRenderEnergy = [
 
 {/* Sdg Banner */}
 
-      <section>
-        <div className="text-center">
-          <h2 className="text-3xl line-clamp-3 font-extrabold text-grey-500 sm:text-4xl">SDG(Sustainable Developer Guide) by United Nation </h2>
+      <section className="bg-white py-5 flex flex-col">
+        <div className="flex flex-col justify-center text-center">
+          <h2 className="text-3xl line-clamp-3 font-extrabold text-sky-500 sm:text-4xl">Sustainable Developer Goals United Nation </h2>
+          <div className=" flex justify-center text-center py-10">
+              <p className=" w-[500px] text-lg font-sans line-clamp-3"> Our initiative has a goals that are alligned with United Nations strategies to overcome problem
+              through Software Development Goals programs</p>
+          </div>
+        </div>
+        <div className="flex item-center justify-center py-5">
+            <img className="w-1/4 h-1/4" src={sdgEmblems} alt="SDG Logo" />
+        </div>
+        <div >
+          <Sdg/>
         </div>
       </section>
 
