@@ -104,7 +104,11 @@ def register():
     # send a confirmation email 
     msg = Message('Confirm Email', sender='noreply.techforvillage@gmail.com', recipients=[email])
     msg.body = 'Click on the link to confirm your email: {}'.format(url_for('auth.confirm_email', token=token, _external=True))
-    mail.send(msg)
+    
+    try:
+        mail.send(msg)
+    except Exception as e:
+        return jsonify(success=False, message='Failed to send confirmation email: {}'.format(str(e))), 500
     
     return jsonify(success=True, message='Account created successfully, please check your email to confirm your account'), 201
 
@@ -133,4 +137,4 @@ def confirm_email(token):
 @login_required
 def logout():
     logout_user()
-    return jsonify(success=True)
+    return jsonify(success=True, message='You have been logged out successfully')
