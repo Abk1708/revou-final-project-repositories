@@ -83,6 +83,9 @@ def register():
         gender=gender
     )
     
+    # set the password using the set_password method
+    new_user.set_password(password)
+    
     # add the new user to the database
     db.session.add(new_user)
     db.session.commit()
@@ -93,7 +96,7 @@ def register():
     
     # send a confirmation email 
     ### (replace the noreply@demo.com)
-    msg = Message('Confirm Email', sender='noreply@demo.com', recipients=[email])
+    msg = Message('Confirm Email', sender='noreply.techforvillage@gmail.com', recipients=[email])
     msg.body = 'Click on the link to confirm your email: {}'.format(url_for('auth.confirm_email', token=token, _external=True))
     mail.send(msg)
     
