@@ -1,12 +1,49 @@
-import { Link } from "react-router-dom";
 import agriculture from "../assets/agriculture.png";
 import tracktorsforservice from "../assets/Traacktors for service.jpg";
 import irrigationforservice from "../assets/lumin-osity-6DMht7wYt6g-unsplash.jpg";
 import greenhouse from "../assets/devi-puspita-amartha-yahya-DViG1hfL1-w-unsplash.jpg";
 import Sustainable from '../assets/energy-control.png';
 import SolarCells from '../assets/nuno-marques-0GbrjL3vZF4-unsplash.jpg';
+import Breadcrumb from "../components/BreadCrumbs/BreadCrumbs";
+import Card from "../components/CardItems/CardItems";
 
 const OurService = () => {
+
+  const BreadcrumbItem = [
+    { label: "Home", to: "/" },
+    { label: "Our Service", to: "/OurService" },
+  ]
+
+  const CardRenderItem = [{
+    imageUrl: tracktorsforservice,
+    title: 'e-Tractors',
+    description: 'Tractors powered with solar cell batteries, eco-friendly, and easy maintenance.',
+    to:'/Dashboard'
+  },
+  {
+    imageUrl: irrigationforservice,
+    title: 'Irrigation Systems',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    to:'/Dashboard'
+  },
+  {
+    imageUrl: greenhouse,
+    title: 'Greenhouse Cultivation',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    to:'/Dashboard',
+  },
+  {
+    imageUrl: SolarCells,
+    title: 'Solar Cells',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+  },
+  ]
+
+const CardRenderEnergy = [
+  
+]
+
+
   return (
     <div>
       {/* First section */}
@@ -16,38 +53,13 @@ const OurService = () => {
             Our Service
           </h1>
         </div>
-
-        {/* Breadcrumb */}
-        <nav className="text-sm font-medium mb-8" aria-label="Breadcrumb">
-          <ol className="list-none p-0 inline-flex">
-            <li className="flex items-center">
-              <Link to="/" className="text-gray-400 hover:text-gray-600">
-                Home
-              </Link>
-              <svg
-                className="h-5 w-auto text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </li>
-            <li className="flex items-center ml-4">
-              <span className="text-white">Our Service</span>
-            </li>
-          </ol>
-        </nav>
-
-        {/* Cards */}
-        <div className="flex overflow-x-auto">
-          {/* Card 1 */}
-          <div className="flex-none w-64 mr-4">
+        {/* breadCrumbs */}
+        <div className="flex flex-row justify-center">
+        <Breadcrumb items={BreadcrumbItem}/>
+        </div>
+        <div className="flex flex-row">
+          {/* hero cards */}
+        <div className="flex-none w-64 mr-4">
             <div className="service-description bg-green-800 text-center p-8 rounded-lg h-full">
               <h2 className="text-3xl font-extrabold text-black sm:text-4xl">
                 Tractors & Automation
@@ -63,195 +75,45 @@ const OurService = () => {
               </p>
             </div>
           </div>
-
-          {/* Card 2 */}
-          <div className="flex-none w-64 mr-4">
-            <div className="corousel bg-white shadow-md rounded-md overflow-hidden h-full">
-              <img
-                className="w-full h-56 object-cover object-center"
-                src={tracktorsforservice}
-                alt="Card"
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-semibold text-gray-800">e-Tractors</h2>
-                <p className="mt-2 text-gray-600">
-                  Tractors powered with solar cell batteries, eco-friendly, and easy
-                  maintenance.
-                </p>
-                <div className="mt-4">
-                  <a
-                    href="#"
-                    className="bg-blue-500 rounded-lg px-5 py-2 hover:text-white font-semibold"
-                  >
-                    Order Our service
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 3 */}
-          <div className="flex-none w-64 mr-4">
-            <div className="corousel bg-white shadow-md rounded-md overflow-hidden h-full">
-              <img
-                className="w-full h-56 object-cover object-center"
-                src={irrigationforservice}
-                alt="Card"
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-semibold text-gray-800">
-                  Irrigation Tools System
-                </h2>
-                <p className="mt-2 text-gray-600">
-                  From precision sprinklers to smart drip systems, our cutting-edge
-                  solutions ensure efficient water distribution, leading to
-                  healthier crops and higher yields
-                </p>
-                <div className="mt-4">
-                  <a
-                    href="#"
-                    className="bg-blue-500 rounded-lg px-5 py-2 hover:text-white font-semibold"
-                  >
-                    Order service
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 4 */}
-          <div className="flex-none w-64 mr-4">
-            <div className="corousel bg-white shadow-md rounded-md overflow-hidden h-full">
-              <img
-                className="w-full h-56 object-cover object-center"
-                src={greenhouse}
-                alt="Card"
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-semibold text-gray-800">
-                  Green House Initiative
-                </h2>
-                <p className="mt-2 text-gray-600">
-                  Our Green House Initiative focus on creating more promise and
-                  sustainable seeds and another hybrid.
-                </p>
-                <div className="mt-4">
-                  <a
-                    href="#"
-                    className="bg-blue-500 rounded-lg px-5 py-2 hover:text-white font-semibold"
-                  >
-                    Order Our Service
-                  </a>
-                </div>
-              </div>
-            </div>
+        {/* service card */}
+          <div className="flex flex-row">
+            <Card items={CardRenderItem}/>
           </div>
         </div>
       </section>
 
-      {/* Second section */}
+{/* Sdg Banner */}
+
+      <section>
+        <div className="text-center">
+          <h2 className="text-3xl line-clamp-3 font-extrabold text-grey-500 sm:text-4xl">SDG(Sustainable Developer Guide) by United Nation </h2>
+        </div>
+      </section>
+
+{/* energy Service Section */}
+
       <section className="bg-slate-800 px-4 py-12 md:px-8 lg:px-16 xl:px-20">
-        <div className="flex overflow-x-auto">
-          {/* Card 5 */}
-          <div className="flex-none w-64 mr-4">
-            <div className="corousel bg-white shadow-md rounded-md overflow-hidden h-full">
-              <img
-                className="w-full h-56 object-cover object-center"
-                src='blank'
-                alt="Card"
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-semibold text-gray-800">
-                  Green House Initiative
-                </h2>
-                <p className="mt-2 text-gray-600">
-                  Our Green House Initiative focus on creating more promise and
-                  sustainable seeds and another hybrid.
-                </p>
-                <div className="mt-4">
-                  <a
-                    href="#"
-                    className="bg-blue-500 rounded-lg px-5 py-2 hover:text-white font-semibold"
-                  >
-                    Order Our Service
-                  </a>
-                </div>
-              </div>
-            </div>
+      <div className="flex flex-row">
+        {/* service card */}
+          <div className="flex flex-row">
+            <Card items={CardRenderItem}/>
           </div>
-
-          {/* Card 6 */}
-          <div className="flex-none w-64 mr-4">
-            <div className="corousel bg-white shadow-md rounded-md overflow-hidden h-full">
-              <img
-                className="w-full h-56 object-cover object-center"
-                src={SolarCells}
-                alt="Card"
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-semibold text-gray-800">Solar Cell and Panels</h2>
-                <p className="mt-2 text-gray-600">
-                  Tractors powered with solar cell batteries, eco-friendly, and easy
-                  maintenance.
-                </p>
-                <div className="mt-4">
-                  <a
-                    href="#"
-                    className="bg-blue-500 rounded-lg px-5 py-2 hover:text-white font-semibold"
-                  >
-                    Order Our service
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 7 */}
-          <div className="flex-none w-64 mr-4">
-            <div className="corousel bg-white shadow-md rounded-md overflow-hidden h-full">
-              <img
-                className="w-full h-56 object-cover object-center"
-                src={irrigationforservice}
-                alt="Card"
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-semibold text-gray-800">
-                  Irrigation Tools System
-                </h2>
-                <p className="mt-2 text-gray-600">
-                  From precision sprinklers to smart drip systems, our cutting-edge
-                  solutions ensure efficient water distribution, leading to
-                  healthier crops and higher yields
-                </p>
-                <div className="mt-4">
-                  <a
-                    href="#"
-                    className="bg-blue-500 rounded-lg px-5 py-2 hover:text-white font-semibold"
-                  >
-                    Order service
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 8 */}
-          <div className="flex-none w-64 mr-4">
-            <div className="service-description bg-yellow-500 text-center p-8 rounded-lg h-full">
-              <h2 className="text-3xl font-extrabold text-black sm:text-4xl">
-                Sustainable Energy
+                    {/* hero cards */}
+        <div className="flex-none w-64 mr-4">
+            <div className="service-description bg-yellow-400 text-center p-8 rounded-lg h-full">
+              <h2 className="text-3xl font-extrabold text-grey-500 sm:text-4xl">
+                Sustainable Power
               </h2>
               <img
                 src={Sustainable}
-                className="mx-auto mt-6 mb-4 w-24 h-24 sm:w-20 sm:h-20"
-                alt="Energy-icon"
+                className="mx-auto mt-6 mb-4 w-16 h-16 sm:w-20 sm:h-20"
+                alt="Agriculture-icon"
               />
-              <p className="text-xl text-gray-800">
-                We support domestic products that help farmers work with sustainable
-                farming cycles.
+              <p className="text-gray-100">
+                We understand how critical Energy Problem impact into a village and Farm Live in the village
               </p>
             </div>
-          </div>
+        </div>
         </div>
       </section>
     </div>

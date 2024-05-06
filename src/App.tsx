@@ -1,10 +1,14 @@
 import './App.css'
+import MainLayout from './layout/MainLayout';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from '../src/view/HomePage';
 import OurService from './view/OurService';
 import TechNews  from './view/Tech-News';
 import OurCostumer from './view/Our-Costumer';
-import MainLayout from './layout/MainLayout';
+
+
+
 
 function App() {
   return (
@@ -36,10 +40,14 @@ function App() {
         path='/OurCostumer'
         element={
           <MainLayout>
-            <OurCostumer />
+            <OurCostumer/>
           </MainLayout>
-        }
-        />
+        }/>
+        <Route
+        path='/Dashboard'
+        element={
+          <div>Dashboard</div>
+        }/>
       </Routes>
     </BrowserRouter>
   );
