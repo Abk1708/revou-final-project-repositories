@@ -5,6 +5,7 @@ from . import auth_bp as auth
 from .forms import RegistrationForm
 from .models import User, Gender
 from database import db
+from datetime import datetime
 from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Message
 from app import mail
@@ -64,6 +65,8 @@ def register():
         password = data.get('password')
         first_name = data.get('first_name')
         last_name = data.get('last_name')
+        birth_date_str = data.get('birth_date')
+        birth_date = datetime.strptime(birth_date_str, '%d-%m-%Y').date()
         email = data.get('email')
         gender = Gender[data.get('gender')]
         
@@ -79,6 +82,7 @@ def register():
         password_hash=generate_password_hash(password, method='sha256'),
         first_name=first_name,
         last_name=last_name,
+        birth_date=birth_date,
         email=email,
         gender=gender
     )

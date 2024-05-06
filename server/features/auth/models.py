@@ -1,6 +1,6 @@
 from database import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy import Enum
+from sqlalchemy import Date, Enum
 import enum
 
 class Gender(enum.Enum):
@@ -14,6 +14,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
+    birth_date = db.Column(Date)
     email = db.Column(db.String(120), unique=True)
     gender = db.Column(Enum(Gender), nullable=False)
     confirmed = db.Column(db.Boolean, default=False)
