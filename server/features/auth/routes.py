@@ -90,16 +90,18 @@ def register():
     # set the password using the set_password method
     new_user.set_password(password)
     
-    # add the new user to the database
-    db.session.add(new_user)
-    db.session.commit()
-    
+    try:
+        # add the new user to the database
+        db.session.add(new_user)
+        db.session.commit()
+    except Exception as e:
+        return jsonify(success=False, message='Database error: {}'.format(str(e))), 500 
+
     # generate a confirmation token
     s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     token = s.dumps(email, salt='email-confirm')
     
     # send a confirmation email 
-    ### (replace the noreply@demo.com)
     msg = Message('Confirm Email', sender='noreply.techforvillage@gmail.com', recipients=[email])
     msg.body = 'Click on the link to confirm your email: {}'.format(url_for('auth.confirm_email', token=token, _external=True))
     mail.send(msg)
