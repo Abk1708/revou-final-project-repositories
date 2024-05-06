@@ -2,6 +2,8 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from '../src/view/HomePage';
 import OurService from './view/OurService';
+import TechNews  from './view/Tech-News';
+import OurCostumer from './view/Our-Costumer';
 import MainLayout from './layout/MainLayout';
 
 function App() {
@@ -18,6 +20,23 @@ function App() {
         element={
           <MainLayout>
             <OurService/>
+          </MainLayout>
+        }
+        />
+        <Route
+        path='/techNews'
+        element={
+          <MainLayout>
+            <TechNews />
+          </MainLayout>
+        }
+        />
+        {/* protected layout */}
+        <Route
+        path='/OurCostumer'
+        element={
+          <MainLayout>
+            <OurCostumer />
           </MainLayout>
         }
         />
