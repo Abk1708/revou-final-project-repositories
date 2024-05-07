@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../Utils/useAuth'; 
 
 const Navigation = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
+    const { isAuthenticated} = useAuth();
 
     const handleToggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -19,6 +21,14 @@ const Navigation = () => {
 
     const handleRegister = () => {
         navigate('/register')
+    }
+
+    const handleLogout = () => {
+        // Implement logout functionality here
+        // For example, clear user authentication state and redirect to logout page
+        // You might also want to call any logout API endpoint if necessary
+        // After logout, you can navigate the user to a specific page, like the homepage
+        navigate('/');
     }
 
     return (
@@ -56,18 +66,36 @@ const Navigation = () => {
                 </button>
             </div>
             <div className="hidden md:flex items-center pr-4 space-x-3 rtl:space-x-reverse"> {/* tablet and larger */}
-                <button
-                    onClick={handleRegister}
-                    type="button"
-                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                > Get started
-                </button>
-                <button
-                    onClick={handleLogin}
-                    type="button"
-                    className="text-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:text-blue-700 dark:hover:text-white dark:focus:ring-blue-800 border border-blue-700 hover:bg-blue-700 hover:bg-opacity-10 dark:hover:bg-blue-700 dark:hover:bg-opacity-10"
-                > Already Have Account?
-                </button>
+                {/* Conditionally render logout button if user is authenticated */}
+                {isAuthenticated && (
+                    <button
+                        onClick={handleLogout}
+                        type="button"
+                        className="text-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:text-blue-700 dark:hover:text-white dark:focus:ring-blue-800 border border-blue-700 hover:bg-blue-700 hover:bg-opacity-10 dark:hover:bg-blue-700 dark:hover:bg-opacity-10"
+                    >
+                        Logout
+                    </button>
+                )}
+
+                {/* Conditionally render login and register buttons if user is not authenticated */}
+                {!isAuthenticated && (
+                    <>
+                        <button
+                            onClick={handleLogin}
+                            type="button"
+                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >
+                            Get started
+                        </button>
+                        <button
+                            onClick={handleRegister}
+                            type="button"
+                            className="text-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:text-blue-700 dark:hover:text-white dark:focus:ring-blue-800 border border-blue-700 hover:bg-blue-700 hover:bg-opacity-10 dark:hover:bg-blue-700 dark:hover:bg-opacity-10"
+                        >
+                            Already Have Account?
+                        </button>
+                    </>
+                )}
             </div>
         </nav>
     );
