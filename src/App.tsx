@@ -1,4 +1,4 @@
-import './App.css'
+
 import MainLayout from './layout/MainLayout';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -6,6 +6,8 @@ import HomePage from '../src/view/HomePage';
 import OurService from './view/OurService';
 import TechNews  from './view/Tech-News';
 import OurCostumer from './view/Our-Costumer';
+import Login from './view/Login';
+import Register from './view/Register';
 
 
 
@@ -19,6 +21,22 @@ function App() {
         element={
             <HomePage/>
         }/>
+        <Route
+        path='/login'
+        element={
+          <MainLayout>
+            <Login/>
+          </MainLayout>
+        }
+        />
+        <Route
+        path='/register'
+        element={
+          <MainLayout>
+            <Register/>
+          </MainLayout>
+        }
+        />
         <Route
         path='/OurService'
         element={
