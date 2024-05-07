@@ -1,4 +1,4 @@
-import section2 from '../../assets/mariana-proenca-mG8sgwkMhCY-unsplash.jpg'
+import section2 from '../../assets/mariana-proenca-mG8sgwkMhCY-unsplash.webp'
 
 const Section2 = () => {
   return (

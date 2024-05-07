@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import axios from "axios";
+import { useState } from "react";
 
 const schema = z.object({
   Username:z.string().min(5,'too short'),
@@ -13,6 +14,7 @@ const schema = z.object({
 });
 
 const Login = () => {
+  const [error, setError] = useState<null |string>(null);
   const {register, handleSubmit, formState:{ errors }}=useForm({
     resolver:zodResolver(schema),
   })
@@ -22,14 +24,19 @@ const Login = () => {
     navigate('/')
   }
 
-  const onSubmit = async(data) => {
-    try{
-      const response = await axios.post("api-url",data);
-      console.log(response.data);
-    } catch(errors){
-      console.error(errors)
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("api-url", data);
+      const { token, expiresIn } = response.data; // Assuming the token and expiresIn are returned from the API
+      const expiryTime = Date.now() + expiresIn * 1000; // Convert expiresIn to milliseconds and add to current time
+      localStorage.setItem('token', token);
+      localStorage.setItem('tokenExpiry', expiryTime.toString());
+      // Redirect the user or perform other actions based on successful login
+    } catch (error) {
+      setError("Invalid email or password");
+      console.error(error);
     }
-  }
+  };
 
   return (
 
@@ -48,7 +55,6 @@ const Login = () => {
                 <input className="px-4 py-1 rounded-lg bg-slate-300" type="text" {...register('Username')}/>
                 {errors.Username && (
                   <p>
-                    {/* Check if errors.email.message is a string and render it */}
                     {typeof errors.Username.message === 'string' ? errors.Username.message : ''}
                   </p>
                 )}
@@ -58,7 +64,6 @@ const Login = () => {
                 <input className="px-4 py-1 rounded-lg bg-slate-300 border-red-600" type="text" {...register('email')}/>
                 {errors.email && (
                   <p>
-                    {/* Check if errors.email.message is a string and render it */}
                     {typeof errors.email.message === 'string' ? errors.email.message : ''}
                   </p>
                 )}
@@ -68,7 +73,6 @@ const Login = () => {
                 <input className="px-4 py-1 rounded-lg bg-slate-300" type="password" {...register('password')} />
                 {errors.password && (
                   <p>
-                    {/* Check if errors.email.message is a string and render it */}
                     {typeof errors.password.message === 'string' ? errors.password.message : ''}
                   </p>
                 )}

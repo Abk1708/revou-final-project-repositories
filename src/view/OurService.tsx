@@ -1,9 +1,9 @@
 import agriculture from "../assets/agriculture.png";
-import tracktorsforservice from "../assets/Traacktors for service.jpg";
-import irrigationforservice from "../assets/lumin-osity-6DMht7wYt6g-unsplash.jpg";
-import greenhouse from "../assets/devi-puspita-amartha-yahya-DViG1hfL1-w-unsplash.jpg";
+import tracktorsforservice from "../assets/Traacktors for service.webp";
+import irrigationforservice from "../assets/lumin-osity-6DMht7wYt6g-unsplash.webp";
+import greenhouse from "../assets/devi-puspita-amartha-yahya-DViG1hfL1-w-unsplash.webp";
 import Sustainable from '../assets/energy-control.png';
-import SolarCells from '../assets/nuno-marques-0GbrjL3vZF4-unsplash.jpg';
+import SolarCells from '../assets/nuno-marques-0GbrjL3vZF4-unsplash.webp';
 import Breadcrumb from "../components/BreadCrumbs/BreadCrumbs";
 import Card from "../components/CardItems/CardItems";
 import sdgEmblems from '../assets/E_SDG_logo_without_UN_emblem_Square_WEB.png.png'

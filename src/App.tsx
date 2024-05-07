@@ -1,5 +1,6 @@
 
 import MainLayout from './layout/MainLayout';
+import AuthProvider from './Utils/AuthProvider';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from '../src/view/HomePage';
@@ -14,7 +15,8 @@ import Register from './view/Register';
 
 function App() {
   return (
-    <BrowserRouter>
+    <AuthProvider>
+        <BrowserRouter>
       <Routes>
         <Route 
         path="/" 
@@ -68,6 +70,7 @@ function App() {
         }/>
       </Routes>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 

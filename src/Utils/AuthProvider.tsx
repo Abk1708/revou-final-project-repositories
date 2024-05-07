@@ -1,8 +1,8 @@
-import { createContext, useState, ReactNode } from 'react';
+import { createContext, useState, ReactNode, useEffect } from 'react';
 
 interface AuthContextProps {
     isAuthenticated: boolean;
-    login: () => void;
+    login: (token: string) => void; // Update login function to accept token as parameter
     logout: () => void;
 }
 
@@ -15,11 +15,20 @@ interface AuthProviderProps {
 function AuthProvider({ children }: AuthProviderProps) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const login = () => {
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setIsAuthenticated(true); // If token exists, user is authenticated
+        }
+    }, []); // Run only on component mount
+
+    const login = (token: string) => {
+        localStorage.setItem('token', token); // Store token in localStorage
         setIsAuthenticated(true);
     }
 
     const logout = () => {
+        localStorage.removeItem('token'); // Remove token from localStorage
         setIsAuthenticated(false);
     }
 
@@ -35,6 +44,5 @@ function AuthProvider({ children }: AuthProviderProps) {
         </AuthContext.Provider>
     )
 }
-
 
 export default AuthProvider;
