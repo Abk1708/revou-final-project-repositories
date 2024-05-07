@@ -8,7 +8,7 @@ from database import db
 from datetime import datetime
 from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Message
-from app import mail
+from mail import mail
 from flask_jwt import JWT, jwt_required, current_identity
 import enum
 import re
@@ -37,8 +37,12 @@ def authenticate(username, password):
 def identity(payload):
     user_id = payload['identity']
     return User.query.get('user_id')
-    
-jwt = JWT(app, authenticate, identity)
+
+jwt = None
+
+def init_jwt(application):
+    global jwt
+    jwt = JWT(application, authenticate, identity)
 
 @auth.route('/login', methods=['POST'])
 def login():
@@ -58,9 +62,9 @@ def login():
 
 @auth.route('/register', methods=['POST'])
 def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        data = request.get_json()
+    data = request.get_json()
+    form = RegistrationForm(data=data)
+    if form.validate():
         username = data.get('username')
         password = data.get('password')
         first_name = data.get('first_name')
@@ -72,45 +76,49 @@ def register():
         
         user = get_user_by_username(username)    
         
-    # if a username is already been used, redirect to signup page
-    if user:
-        return jsonify(success=False, message='Username already exists'), 400
-    
-    # create new user with the form data
-    new_user = User(
-        username=username, 
-        password_hash=generate_password_hash(password, method='sha256'),
-        first_name=first_name,
-        last_name=last_name,
-        birth_date=birth_date,
-        email=email,
-        gender=gender
-    )
-    
-    # set the password using the set_password method
-    new_user.set_password(password)
-    
-    try:
-        # add the new user to the database
-        db.session.add(new_user)
-        db.session.commit()
-    except Exception as e:
-        return jsonify(success=False, message='Database error: {}'.format(str(e))), 500 
+        # if a username is already been used, redirect to signup page
+        if user:
+            return jsonify(success=False, message='Username already exists'), 400
+        
+        # create new user with the form data
+        new_user = User(
+            username=username, 
+            password_hash=generate_password_hash(password, method='sha256'),
+            first_name=first_name,
+            last_name=last_name,
+            birth_date=birth_date,
+            email=email,
+            gender=gender
+        )
+        
+        # set the password using the set_password method
+        new_user.set_password(password)
+        
+        try:
+            # add the new user to the database
+            db.session.add(new_user)
+            db.session.commit()
+        except Exception as e:
+            return jsonify(success=False, message='Database error: {}'.format(str(e))), 500 
 
-    # generate a confirmation token
-    s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-    token = s.dumps(email, salt='email-confirm')
-    
-    # send a confirmation email 
-    msg = Message('Confirm Email', sender='noreply.techforvillage@gmail.com', recipients=[email])
-    msg.body = 'Click on the link to confirm your email: {}'.format(url_for('auth.confirm_email', token=token, _external=True))
-    
-    try:
-        mail.send(msg)
-    except Exception as e:
-        return jsonify(success=False, message='Failed to send confirmation email: {}'.format(str(e))), 500
-    
-    return jsonify(success=True, message='Account created successfully, please check your email to confirm your account'), 201
+        # generate a confirmation token
+        s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        token = s.dumps(email, salt='email-confirm')
+        
+        # send a confirmation email 
+        msg = Message('Confirm Email', sender='noreply.techforvillage@gmail.com', recipients=[email])
+        msg.body = 'Click on the link to confirm your email: {}'.format(url_for('auth.confirm_email', token=token, _external=True))
+        
+        try:
+            mail.send(msg)
+        except Exception as e:
+            return jsonify(success=False, message='Failed to send confirmation email: {}'.format(str(e))), 500
+        
+        return jsonify(success=True, message='Account created successfully, please check your email to confirm your account'), 201
+
+    else: 
+        print(form.errors)
+        return jsonify(success=False, message='Invalid form data'), 400
 
 @auth.route('/confirm/<token>')
 def confirm_email(token):

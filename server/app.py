@@ -1,18 +1,20 @@
 from flask import Flask, render_template
 from database import db
-from features.auth.routes import login_manager
+from features.auth.routes import login_manager, init_jwt
 from features.auth import auth_bp 
 from features.news.routes import news_bp  
-from flask_mail import Mail
+from mail import mail
 
 import os
 
 app = Flask(__name__)
+init_jwt(app)
+
 
 # Set the secret key
 app.config['SECRET_KEY'] = os.urandom(16)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://tfv_user:techforvillage@localhost/User'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://tfv_user:techforvillage@127.0.0.1/User'
 
 # Configure Flask-Mail
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -22,7 +24,7 @@ app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('noreply.techforvillage@gmail.com')
 app.config['MAIL_PASSWORD'] = os.environ.get('Techforvillage123')
 
-mail = Mail(app)
+mail.init_app(app)
 
 db.init_app(app)
 with app.app_context():

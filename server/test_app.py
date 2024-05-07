@@ -1,8 +1,10 @@
 from flask import url_for
 import pytest
 from app import app, db
-from features.auth.models import User, generate_password_hash
+from features.auth.models import User, Gender
 from features.news.routes import call_api  # Assuming you want to mock this
+from datetime import datetime
+from werkzeug.security import generate_password_hash
 
 # Setup for test client
 @pytest.fixture
@@ -15,7 +17,16 @@ def client():
         db.create_all()
 
         # Create a dummy user
-        dummy_user = User(username='dummy', password_hash=generate_password_hash('dummy', method='sha256'))
+        dummy_user = User(
+            username='dummy', 
+            password_hash=generate_password_hash('Dummy123', method='sha256'),
+            first_name='Dummy',
+            last_name='User',
+            birth_date=datetime.strptime('01-01-2000', '%d-%m-%Y').date(),
+            email='dummy@example.com',
+            gender=Gender.MALE,
+            confirmed=True
+        )
         db.session.add(dummy_user)
         db.session.commit()
 
@@ -29,7 +40,7 @@ def client():
 # Register test
 def test_register(client):
     response = client.post('/auth/register', json=
-    {'username': 'test', 'password': 'test'})
+    {'username': 'test', 'password': 'Test123', 'first_name': 'Test', 'last_name': 'User', 'birth_date': '01-01-2000', 'email': 'test@example.com', 'gender': 'MALE'})
 
     assert response.status_code == 201
     assert b'Account created successfully' in response.data
@@ -37,7 +48,7 @@ def test_register(client):
 # Login test
 def test_login(client):
     response = client.post('/auth/login', json=
-    {'username': 'dummy', 'password': 'dummy'})
+    {'username': 'dummy', 'password': 'Dummy123'})
 
     assert response.status_code == 200
     assert b'success' in response.data
@@ -46,7 +57,7 @@ def test_login(client):
 def test_logout(client):
     # Log in the user
     client.post('/auth/login', json=
-    {'username': 'dummy', 'password': 'dummy'})
+    {'username': 'dummy', 'password': 'Dummy123'})
 
     # Now try to log out
     response = client.get('/auth/logout')
