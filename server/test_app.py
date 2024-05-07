@@ -1,6 +1,6 @@
 from flask import url_for
 import pytest
-from app import app, db
+from extensions import db
 from features.auth.models import User, Gender
 from features.news.routes import call_api  # Assuming you want to mock this
 from datetime import datetime
@@ -9,6 +9,8 @@ from werkzeug.security import generate_password_hash
 # Setup for test client
 @pytest.fixture
 def client():
+    from app import create_app, app
+    app = create_app()
     app.config['TESTING'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'  # Use in-memory SQLite for tests
     client = app.test_client()

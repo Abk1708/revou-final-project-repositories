@@ -1,9 +1,20 @@
 from flask_wtf import FlaskForm
 from wtforms import DateField, StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationError
+from datetime import datetime
 import re
 from .models import Gender, User
 
+
+class MyDateField(StringField):
+    def process_formdata(self, valuelist):
+        if valuelist:
+            date_str = ' '.join(valuelist)
+            try:
+                self.data = datetime.strptime(date_str, '%d-%m-%Y').date()
+            except ValueError:
+                self.data = None
+                raise ValueError('Invalid date format. Use DD-MM-YYYY.')
 class RegistrationForm(FlaskForm):
     
     class Meta:
@@ -13,11 +24,11 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
-    birth_date = DateField('Birth Date', validators=[DataRequired()])
+    birth_date = MyDateField('Birth Date', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     gender = SelectField('Gender', choices=[(Gender.MALE.name, 'Male'), (Gender.FEMALE.name, 'Female')], validators=[DataRequired()])
 
-submit = SubmitField('Sign Up')
+submit = SubmitField('Sign Up') 
 
 def validate_password(self, password):
     if len(password.data) < 6:

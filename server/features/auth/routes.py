@@ -1,21 +1,17 @@
 from flask import app, flash, jsonify, redirect, request, url_for
-from flask_login import LoginManager, login_required, login_user, logout_user
+from flask_login import login_required, login_user, logout_user
+from extensions import login_manager, db, mail
 from werkzeug.security import check_password_hash, generate_password_hash
 from . import auth_bp as auth
 from .forms import RegistrationForm
 from .models import User, Gender
-from database import db
 from datetime import datetime
 from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Message
-from mail import mail
 from flask_jwt import JWT, jwt_required, current_identity
 import enum
 import re
 
-
-# Create an object of LoginManager for user authentication
-login_manager = LoginManager()
 
 # Set the login view to redirect to for user login
 login_manager.login_view = 'auth.login'
@@ -38,7 +34,6 @@ def identity(payload):
     user_id = payload['identity']
     return User.query.get('user_id')
 
-jwt = None
 
 def init_jwt(application):
     global jwt
@@ -63,6 +58,7 @@ def login():
 @auth.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
+
     form = RegistrationForm(data=data)
     if form.validate():
         username = data.get('username')
@@ -71,6 +67,7 @@ def register():
         last_name = data.get('last_name')
         birth_date_str = data.get('birth_date')
         birth_date = datetime.strptime(birth_date_str, '%d-%m-%Y').date()
+        data['birth_date'] = birth_date
         email = data.get('email')
         gender = Gender[data.get('gender')]
         
