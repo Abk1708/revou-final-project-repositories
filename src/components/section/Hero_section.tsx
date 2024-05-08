@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import HeroBackground from "../../assets/cameron-witney-Hero banner.jpg"
+import HeroBackground from "../../assets/cameron-witney-Hero banner.webp"
 import Section1 from './Section-1';
 import Section2 from './Section-2';
 import Section3 from './Section-3';

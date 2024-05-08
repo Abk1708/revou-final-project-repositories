@@ -1,4 +1,4 @@
-import section3 from '../../assets/agricultural-researcher-with-tablet-slowly-inspect-plants.jpg'
+import section3 from '../../assets/agricultural-researcher-with-tablet-slowly-inspect-plants.webp'
 
 const Section3 = () => {
   return (
