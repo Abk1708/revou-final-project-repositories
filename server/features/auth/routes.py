@@ -96,6 +96,13 @@ def register():
             db.session.add(new_user)
             db.session.commit()
 
+            # Debug: Before sending the email, log the current mail settings
+            app.logger.debug("Mail server: " + app.config['MAIL_SERVER'])
+            app.logger.debug("Mail port: " + str(app.config['MAIL_PORT']))
+            app.logger.debug("Use TLS: " + str(app.config['MAIL_USE_TLS']))
+            app.logger.debug("Use SSL: " + str(app.config['MAIL_USE_SSL']))
+            app.logger.debug("Mail username: " + app.config['MAIL_USERNAME'])
+
             # generate a confirmation token
             s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
             token = s.dumps(email, salt='email-confirm')
@@ -107,13 +114,15 @@ def register():
             try:
                 mail.send(msg)
             except Exception as e:
-                return jsonify(success=False, message='Failed to send confirmation email: {}'.format(str(e))), 500
+                app.logger.error("Failed to send email: " + str(e))
+                raise # Optionally re-raise the exception to handle it further up the call stack
             
             return jsonify(success=True, message='Account created successfully, please check your email to confirm your account'), 201
 
         else: 
             print(form.errors)
             return jsonify(success=False, message='Invalid form data'), 400
+        
     except Exception as e:
         app.logger.error(f"Exception occurred: {str(e)}")
         return jsonify(success=False, message=f"An error occured: {str(e)}"), 500
