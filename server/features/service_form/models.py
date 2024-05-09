@@ -1,6 +1,6 @@
 from extensions import db
 from datetime import datetime
-from sqlalchemy import Dialect, Text, Date, Enum, DateTime, Time
+from sqlalchemy import Text, Date, Enum, DateTime
 import enum
 import sqlalchemy.types as types
 

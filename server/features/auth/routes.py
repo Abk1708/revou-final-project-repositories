@@ -1,3 +1,4 @@
+from functools import wraps
 from flask import flash, jsonify, redirect, request, url_for
 from flask import current_app as app
 from flask_login import login_required, login_user, logout_user
@@ -7,7 +8,7 @@ from . import auth_bp as auth
 from .forms import RegistrationForm
 from .models import User, Gender
 from datetime import datetime
-from itsdangerous import URLSafeTimedSerializer
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from flask_mail import Message
 from flask_jwt import JWT, jwt_required, current_identity
 import enum
@@ -25,6 +26,38 @@ def load_user(user_id):
 def get_user_by_username(username):
     return User.query.filter_by(username=username).first()
 
+# Token verification function
+def verify_token(token):
+    s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+    try:
+        data = s.loads(token, salt='auth-token', max_age=3600)  # Token valid for 1 hour
+        return User.query.get(data['user_id'])
+    except (SignatureExpired, BadSignature):
+        return None
+    
+# Decorator to protect routes with token authentication
+def token_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        auth_header = request.headers.get('Authorization')
+        if not auth_header:
+            return jsonify(success=False, message="Missing token."), 403
+        try:
+            token = auth_header.split()[1]
+        except IndexError:
+            return jsonify(success=False, message="Bearer token malformed."), 400
+        user = verify_token(token)
+        if not user:
+            return jsonify(success=False, message="Invalid or expired token."), 401
+        return f(user, *args, **kwargs)
+    return decorated_function
+
+# Example protected route using the token_required decorator
+@auth.route('/protected')
+@token_required
+def protected_route(current_user):
+    return jsonify(success=True, message=f"Welcome {current_user.username}!")
+
 # Check user credentials during login
 def authenticate(username, password):
     user = get_user_by_username(username)
@@ -34,7 +67,6 @@ def authenticate(username, password):
 def identity(payload):
     user_id = payload['identity']
     return User.query.get('user_id')
-
 
 def init_jwt(application):
     global jwt
@@ -52,9 +84,15 @@ def login():
     if not user or not check_password_hash(user.password_hash, password):
         return jsonify(success=False, message='Please check your login details and try again'), 400
     
-    # if the above check passes, user has the right credentials
+    if not user.is_active:
+        return jsonify(success=False, message='Please confirm your email before logging in.'), 403
+        
+    # if the above check passes, user has the right credentials, 
+    # generate token using itsdangerous
+    s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+    token = s.dumps({'user_id': user.id}, salt='auth_token')
     login_user(user)
-    return jsonify(success=True)
+    return jsonify(success=True, token=token)
 
 
 @auth.route('/register', methods=['POST'])
@@ -111,6 +149,7 @@ def confirm_email(token):
     
     # check for an email address match from a User
     user = User.query.filter_by(email=email).first()
+    print(user)
     
     if user.confirmed:
         return jsonify(success=False, message='Account already confirmed'), 400
