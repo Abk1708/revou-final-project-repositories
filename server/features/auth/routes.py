@@ -105,7 +105,7 @@ def confirm_email(token):
     # deserialize the token sent by email
     try:
         s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-        email = s.loads(token, salt='email-confirm', max_age=3600) # Max. 1 hour
+        email = s.loads(token, salt='email-confirm')
     except:
         return jsonify(success=False, message='The confirmation link is invalid or has been expired.'), 400
     
