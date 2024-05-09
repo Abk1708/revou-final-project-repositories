@@ -110,9 +110,6 @@ const HeroSection = () => {
         </div>
       </div>
       <div ref={section3Ref} className="text-center">
-        <h2 className="text-3xl font-extrabold text-gray-500 sm:text-4xl">
-          Section 3 heading
-        </h2>
         <p className="mt-4 text-lg leading-6 text-gray-200">
           <Section3 />
         </p>

@@ -1,4 +1,5 @@
 import Navigation from "../components/Navigation_bar"
+import Footer from "../components/Footer/Footer"
 
 
 
@@ -15,6 +16,7 @@ return (
             <div className="relative">
                 {children}
             </div>
+            <Footer />
         </div>
     </div>
 )

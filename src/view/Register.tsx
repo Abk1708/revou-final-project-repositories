@@ -4,7 +4,7 @@ import banner from '../assets/paolo-nicolello---0RlqBni6g-unsplash.jpg';
 import Arrow from '../assets/previous.png';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import bcrypt from 'bcryptjs'; // Import bcrypt library
+ // Import bcrypt library
 
 const Register = () => {
   const navigate = useNavigate();
@@ -15,30 +15,33 @@ const Register = () => {
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      // hashing pasword here 
-      const hashedPassword = await bcrypt.hash(data.password, 10);
-      const userData = { ...data, password: hashedPassword };
+      const userData = { ...data};
       const response = await axios.post('https://jsonplaceholder.typicode.com/posts', userData);
       console.log(response.data);
-      navigate('/')
+      navigate('/Dashboard')
     } catch (error) {
       console.error(error);
+      alert('Error registering user');
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const handleClick = () => {
+    navigate('/');
+  };
+
   return (
     <div>
       <div className="flex flex-wrap items-center">
-        <img src={Arrow} className="my-4 mx-4 w-[40px] h-[40px] hover:rounded-full hover:bg-black hover:text-white" alt="back button" />
+        <img onClick={handleClick} src={Arrow} className="my-4 mx-4 w-[40px] h-[40px] hover:rounded-full hover:bg-black hover:text-white" alt="back button" />
         <span>Back</span>
       </div>
       <div className="flex items-center justify-center py-20">
         <div className="flex flex-row justify-center items-center h-full mt-10 border-4 rounded-xl object-contain bg-white">
           <div className="flex flex-col text-center justify-center items-center rounded-lg bg-white">
             <h2>Registration</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form className='py-5 px-5' onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-row px-4 py-4 justify-left">
                 <label className="px-4">Full Name</label>
                 <input className="px-4 py-1 rounded-lg bg-slate-300" type="text" {...register('fullname')} />
@@ -72,6 +75,32 @@ const Register = () => {
                 {errors.password && (
                   <p>
                     {typeof errors.password.message === 'string' ? errors.password.message : ''}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-row px-4 py-4 justify-left">
+                <label className="px-4">Gender</label>
+                <select className="px-4 py-1 rounded-lg bg-slate-300" {...register('gender')}>
+                  <option value="">Select gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+                {errors.gender && (
+                  <p>
+                    {typeof errors.gender.message === 'string' ? errors.gender.message : ''}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-row px-4 py-4 justify-left">
+                <label className="px-4">Birth Date</label>
+                <input
+                  className="px-4 py-1 rounded-lg bg-slate-300"
+                  type="date"
+                  {...register('birthdate')}
+                />
+                {errors.birthdate && (
+                  <p>
+                    {typeof errors.birthdate.message === 'string' ? errors.birthdate.message : ''}
                   </p>
                 )}
               </div>

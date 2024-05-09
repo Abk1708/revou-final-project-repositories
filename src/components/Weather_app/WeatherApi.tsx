@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 const WeatherApp = () => {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
+  const API_KEY = process.env.VITE_WEATHER_API_KEY;
+
 
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${import.meta.env.VITE_WEATHER_API_KEY}&q=jakarta`);
+        const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=jakarta`);
         const data = await response.json();
         setWeather(data);
         setLoading(false); // Set loading to false after successfully fetching data
