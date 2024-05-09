@@ -56,76 +56,49 @@ def login():
     login_user(user)
     return jsonify(success=True)
 
+
 @auth.route('/register', methods=['POST'])
 def register():
     try:
         data = request.get_json()
         form = RegistrationForm(data=data)
         if form.validate():
-            username = data.get('username')
-            password = data.get('password')
-            first_name = data.get('first_name')
-            last_name = data.get('last_name')
-            birth_date_str = data.get('birth_date')
-            birth_date = datetime.strptime(birth_date_str, '%d-%m-%Y').date()
-            data['birth_date'] = birth_date
-            email = data.get('email')
-            gender = Gender[data.get('gender')]
-            
-            user = get_user_by_username(username)    
-            # if a username is already been used, redirect to signup page
+            # existing user check moved here to provide specific error message
+            user = get_user_by_username(data.get('username'))
             if user:
                 return jsonify(success=False, message='Username already exists'), 400
-            
-            # create new user with the form data
+
             new_user = User(
-                username=username, 
-                password_hash=generate_password_hash(password, method='sha256'),
-                first_name=first_name,
-                last_name=last_name,
-                birth_date=birth_date,
-                email=email,
-                gender=gender
+                username=data['username'], 
+                password_hash=generate_password_hash(data['password'], method='sha256'),
+                first_name=data['first_name'],
+                last_name=data['last_name'],
+                birth_date=datetime.strptime(data['birth_date'], '%d-%m-%Y').date(),
+                email=data['email'],
+                gender=Gender[data['gender']]
             )
-            
-            # set the password using the set_password method
-            new_user.set_password(password)
-            
-            
-            # add the new user to the database
+            new_user.set_password(data['password'])
             db.session.add(new_user)
             db.session.commit()
 
-            # Debug: Before sending the email, log the current mail settings
-            app.logger.debug("Mail server: " + app.config['MAIL_SERVER'])
-            app.logger.debug("Mail port: " + str(app.config['MAIL_PORT']))
-            app.logger.debug("Use TLS: " + str(app.config['MAIL_USE_TLS']))
-            app.logger.debug("Use SSL: " + str(app.config['MAIL_USE_SSL']))
-            app.logger.debug("Mail username: " + app.config['MAIL_USERNAME'])
-
-            # generate a confirmation token
-            s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-            token = s.dumps(email, salt='email-confirm')
-            
-            # send a confirmation email 
-            msg = Message('Confirm Email', sender='tech.for.village@outlook.com', recipients=[email])
-            msg.body = 'Click on the link to confirm your email: {}'.format(url_for('auth.confirm_email', token=token, _external=True))
-            
-            try:
-                mail.send(msg)
-            except Exception as e:
-                app.logger.error("Failed to send email: " + str(e))
-                raise # Optionally re-raise the exception to handle it further up the call stack
+            # Email sending logic with debug information
+            token = URLSafeTimedSerializer(app.config['SECRET_KEY']).dumps(data['email'], salt='email-confirm')
+            msg = Message('Confirm Email', sender='tech.for.village@outlook.com', recipients=[data['email']])
+            msg.body = f'Click on the link to confirm your email: {url_for("auth.confirm_email", token=token, _external=True)}'
+            mail.send(msg)
             
             return jsonify(success=True, message='Account created successfully, please check your email to confirm your account'), 201
-
-        else: 
-            print(form.errors)
-            return jsonify(success=False, message='Invalid form data'), 400
-        
+        else:
+            # Collect form errors
+            errors = []
+            for field, messages in form.errors.items():
+                for message in messages:
+                    errors.append(f"{field}: {message}")
+            return jsonify(success=False, message="Invalid form data", errors=errors), 400
     except Exception as e:
         app.logger.error(f"Exception occurred: {str(e)}")
-        return jsonify(success=False, message=f"An error occured: {str(e)}"), 500
+        return jsonify(success=False, message=f"An error occurred: {str(e)}"), 500
+
         
 @auth.route('/confirm/<token>')
 def confirm_email(token):
