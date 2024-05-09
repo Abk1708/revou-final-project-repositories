@@ -29,6 +29,7 @@ function TechNews() {
     }
   };
 
+
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
     setSearchQuery(''); // Clear search query when category is selected
@@ -53,7 +54,7 @@ function TechNews() {
         <input
           type="text"
           value={searchQuery}
-          onBlur={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search..."
           className="px-4 py-2 border border-gray-300 rounded-xl focus:outline-black focus:border-blue-400"
         />
