@@ -37,7 +37,8 @@ const OurService = () => {
   {
     imageUrl: SolarCells,
     title: 'Solar Cells',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    to:'/Dashboard'
   },
   ]
 
