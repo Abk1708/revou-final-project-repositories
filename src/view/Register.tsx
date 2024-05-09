@@ -9,7 +9,7 @@ import axios from 'axios';
 const Register = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [formData, setFormData] = useState({});
+  // const [formData, setFormData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = async (data) => {

@@ -72,7 +72,7 @@ const HeroSection = () => {
   
 
   return (
-    <div>
+    <div className='bg-slate-900'>
       <div
         className="flex bg-cover bg-center py-52"
         ref={heroRef}
