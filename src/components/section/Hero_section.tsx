@@ -98,13 +98,16 @@ const HeroSection = () => {
       </div>
       <div ref={section1Ref} className="text-center">
         <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-          Section 1
+          Get To Know Us
         </h2>
         <p className="mt-4 text-lg leading-6 text-gray-200">
           <Section1 />
         </p>
       </div>
-      <div ref={section2Ref} className="bg-gray-400">
+      <div ref={section2Ref} className="text-center">
+      <h2 className="text-3xl py-5x font-extrabold text-white sm:text-4xl">
+          How to Find Our Service
+        </h2>
         <div className="text-center">
           <Section2 />
         </div>
