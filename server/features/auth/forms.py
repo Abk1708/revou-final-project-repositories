@@ -38,7 +38,7 @@ def validate_password(self, password):
     if not re.search(r'\d', password.data):
         raise ValidationError('Password must contain at least one number.')
     
-def validate_email(self, email):
-    user = User.query.filter_by(email=email.data).first()
-    if user:
-        raise ValidationError('That email is taken. Please choose a different one.')
+# def validate_email(self, email):
+#     user = User.query.filter_by(email=email.data).first()
+#     if user:
+#         raise ValidationError('That email is taken. Please choose a different one.')

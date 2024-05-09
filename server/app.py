@@ -1,49 +1,55 @@
+import os
 from flask import Flask, render_template
 from extensions import db, mail, login_manager
 from features.auth.routes import init_jwt
 from features.auth import auth_bp 
 from features.news.routes import news_bp  
-
-import os
+import logging
+from logging.handlers import RotatingFileHandler
 
 app = None
 
 def create_app():
-    global app
+    # global app // remove if not needed
     app = Flask(__name__)
-    init_jwt(app)
+    app.logger.setLevel(logging.INFO)  # Setting the log level to INFO
 
+    # Set up the logging handler
+    if not app.debug:
+        file_handler = RotatingFileHandler('app_logs.log', maxBytes=1024 * 1024 * 100, backupCount=10)
+        file_handler.setFormatter(logging.Formatter(
+            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+        ))
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
 
-    # Set the secret key
-    app.config['SECRET_KEY'] = os.urandom(16)
+    # Application configuration
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.urandom(16))
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI', 'mysql://tfv_user:techforvillage@127.0.0.1/User')
+    app.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USE_SSL'] = False
+    app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'tech.for.village@outlook.com')
+    app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', 'Techforvillage123')
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://tfv_user:techforvillage@127.0.0.1/User'
-
-    # Configure Flask-Mail
-    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-    app.config['MAIL_PORT'] = 465 # Standard port for SMTP over SSL
-    app.config['MAIL_USE_TLS'] = False # Because of using SSL, not STARTTLS
-    app.config['MAIL_USE_SSL'] = True
-    app.config['MAIL_USERNAME'] = os.environ.get('noreply.techforvillage@gmail.com')
-    app.config['MAIL_PASSWORD'] = os.environ.get('Techforvillage123')
-
+    # Initialize extensions
     mail.init_app(app)
-
     db.init_app(app)
     with app.app_context():
         db.create_all()
-        
     login_manager.init_app(app)
+
+    # Blueprints
+    app.register_blueprint(auth_bp, url_prefix='/auth')  
+    app.register_blueprint(news_bp, url_prefix='/news')  
 
     @app.route('/api')
     def index():
         return render_template('index.html')
 
-    app.register_blueprint(auth_bp, url_prefix='/auth')  
-    app.register_blueprint(news_bp, url_prefix='/news')  
-    
     return app
 
 if __name__ == '__main__':
-    app = create_app
+    app = create_app()
     app.run(debug=True)

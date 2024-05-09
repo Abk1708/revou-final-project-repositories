@@ -1,0 +1,4 @@
+2024-05-09 12:33:43,743 ERROR: Exception occurred: (MySQLdb.IntegrityError) (1062, "Duplicate entry 'alvidofaisal@hotmail.com' for key 'email'")
+[SQL: INSERT INTO user (username, password_hash, first_name, last_name, birth_date, email, gender, confirmed) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)]
+[parameters: ('test_username1', 'pbkdf2:sha256:600000$v6SEsJ9QtAtqQJNf$62928bfe8d18649ab22be16f0b43558be9f070bd6dfc00004e3da60e0e3a160d', 'First_Name', 'Last_Name', datetime.date(2000, 1, 1), 'alvidofaisal@hotmail.com', 'MALE', 0)]
+(Background on this error at: https://sqlalche.me/e/14/gkpj) [in /home/ombah/revou-final-project-repositories/server/features/auth/routes.py:118]

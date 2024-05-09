@@ -1,4 +1,5 @@
-from flask import app, flash, jsonify, redirect, request, url_for
+from flask import flash, jsonify, redirect, request, url_for
+from flask import current_app as app
 from flask_login import login_required, login_user, logout_user
 from extensions import login_manager, db, mail
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -57,66 +58,66 @@ def login():
 
 @auth.route('/register', methods=['POST'])
 def register():
-    data = request.get_json()
-
-    form = RegistrationForm(data=data)
-    if form.validate():
-        username = data.get('username')
-        password = data.get('password')
-        first_name = data.get('first_name')
-        last_name = data.get('last_name')
-        birth_date_str = data.get('birth_date')
-        birth_date = datetime.strptime(birth_date_str, '%d-%m-%Y').date()
-        data['birth_date'] = birth_date
-        email = data.get('email')
-        gender = Gender[data.get('gender')]
-        
-        user = get_user_by_username(username)    
-        
-        # if a username is already been used, redirect to signup page
-        if user:
-            return jsonify(success=False, message='Username already exists'), 400
-        
-        # create new user with the form data
-        new_user = User(
-            username=username, 
-            password_hash=generate_password_hash(password, method='sha256'),
-            first_name=first_name,
-            last_name=last_name,
-            birth_date=birth_date,
-            email=email,
-            gender=gender
-        )
-        
-        # set the password using the set_password method
-        new_user.set_password(password)
-        
-        try:
+    try:
+        data = request.get_json()
+        form = RegistrationForm(data=data)
+        if form.validate():
+            username = data.get('username')
+            password = data.get('password')
+            first_name = data.get('first_name')
+            last_name = data.get('last_name')
+            birth_date_str = data.get('birth_date')
+            birth_date = datetime.strptime(birth_date_str, '%d-%m-%Y').date()
+            data['birth_date'] = birth_date
+            email = data.get('email')
+            gender = Gender[data.get('gender')]
+            
+            user = get_user_by_username(username)    
+            # if a username is already been used, redirect to signup page
+            if user:
+                return jsonify(success=False, message='Username already exists'), 400
+            
+            # create new user with the form data
+            new_user = User(
+                username=username, 
+                password_hash=generate_password_hash(password, method='sha256'),
+                first_name=first_name,
+                last_name=last_name,
+                birth_date=birth_date,
+                email=email,
+                gender=gender
+            )
+            
+            # set the password using the set_password method
+            new_user.set_password(password)
+            
+            
             # add the new user to the database
             db.session.add(new_user)
             db.session.commit()
-        except Exception as e:
-            return jsonify(success=False, message='Database error: {}'.format(str(e))), 500 
 
-        # generate a confirmation token
-        s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-        token = s.dumps(email, salt='email-confirm')
-        
-        # send a confirmation email 
-        msg = Message('Confirm Email', sender='noreply.techforvillage@gmail.com', recipients=[email])
-        msg.body = 'Click on the link to confirm your email: {}'.format(url_for('auth.confirm_email', token=token, _external=True))
-        
-        try:
-            mail.send(msg)
-        except Exception as e:
-            return jsonify(success=False, message='Failed to send confirmation email: {}'.format(str(e))), 500
-        
-        return jsonify(success=True, message='Account created successfully, please check your email to confirm your account'), 201
+            # generate a confirmation token
+            s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+            token = s.dumps(email, salt='email-confirm')
+            
+            # send a confirmation email 
+            msg = Message('Confirm Email', sender='noreply.techforvillage@gmail.com', recipients=[email])
+            msg.body = 'Click on the link to confirm your email: {}'.format(url_for('auth.confirm_email', token=token, _external=True))
+            
+            try:
+                mail.send(msg)
+            except Exception as e:
+                return jsonify(success=False, message='Failed to send confirmation email: {}'.format(str(e))), 500
+            
+            return jsonify(success=True, message='Account created successfully, please check your email to confirm your account'), 201
 
-    else: 
-        print(form.errors)
-        return jsonify(success=False, message='Invalid form data'), 400
-
+        else: 
+            print(form.errors)
+            return jsonify(success=False, message='Invalid form data'), 400
+    except Exception as e:
+        app.logger.error(f"Exception occurred: {str(e)}")
+        return jsonify(success=False, message=f"An error occured: {str(e)}"), 500
+        
 @auth.route('/confirm/<token>')
 def confirm_email(token):
     # deserialize the token sent by email

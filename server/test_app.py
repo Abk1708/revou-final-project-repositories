@@ -1,10 +1,15 @@
 from flask import url_for
 import pytest
+from datetime import datetime
 from extensions import db
 from features.auth.models import User, Gender
-from features.news.routes import call_api  # Assuming you want to mock this
-from datetime import datetime
+from unittest.mock import patch
 from werkzeug.security import generate_password_hash
+from faker import Faker
+
+
+# Use Faker to generate unique data, to help avoid conflicts like duplicate entries
+fake = Faker()
 
 # Setup for test client
 @pytest.fixture
@@ -17,8 +22,9 @@ def client():
     
     with app.app_context():
         db.create_all()
-
-        # Create a dummy user
+        
+        
+        # Create a dummy user for login and logout
         dummy_user = User(
             username='dummy', 
             password_hash=generate_password_hash('Dummy123', method='sha256'),
@@ -32,20 +38,39 @@ def client():
         db.session.add(dummy_user)
         db.session.commit()
 
-    yield client
-    
-    with app.app_context():
+        yield client
         db.drop_all()
 
 ########## AUTH TEST ##########
 
 # Register test
 def test_register(client):
-    response = client.post('/auth/register', json=
-    {'username': 'test', 'password': 'Test123', 'first_name': 'Test', 'last_name': 'User', 'birth_date': '01-01-2000', 'email': 'test@example.com', 'gender': 'MALE'})
+    # Generate unique data for each test run
+    unique_email = fake.email()
+    unique_username = fake.user_name()
+    
+    
+    with patch('extensions.mail.send') as mock_send_email:
+        mock_send_email.return_value = None # Expect no return from mail.send
+        
+        
+        response = client.post('/auth/register', json=
+        {
+            'username': unique_username, 
+            'password': 'Test123', 
+            'first_name': 'Test', 
+            'last_name': 'User', 
+            'birth_date': '01-01-2000', 
+            'email': unique_email, 
+            'gender': 'MALE'
+        })
+        
+        # Assert that the email function was called exactly once
+        mock_send_email.assert_called_once()
 
-    assert response.status_code == 201
+    assert response.status_code == 201, "Expected HTTP 201 but got {}".format(response.status_code)
     assert b'Account created successfully' in response.data
+
     
 # Login test
 def test_login(client):
