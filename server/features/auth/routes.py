@@ -101,7 +101,7 @@ def register():
             token = s.dumps(email, salt='email-confirm')
             
             # send a confirmation email 
-            msg = Message('Confirm Email', sender='noreply.techforvillage@gmail.com', recipients=[email])
+            msg = Message('Confirm Email', sender='tech.for.village@outlook.com', recipients=[email])
             msg.body = 'Click on the link to confirm your email: {}'.format(url_for('auth.confirm_email', token=token, _external=True))
             
             try:
