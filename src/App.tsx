@@ -1,5 +1,6 @@
 
 import MainLayout from './layout/MainLayout';
+import DashboardLayout from './layout/DashboardLayout';
 import AuthProvider from './Utils/AuthProvider';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -9,6 +10,7 @@ import TechNews  from './view/Tech-News';
 import OurCostumer from './view/Our-Costumer';
 import Login from './view/Login';
 import Register from './view/Register';
+import Dashboard from './view/Dashboard';
 
 
 
@@ -66,7 +68,9 @@ function App() {
         <Route
         path='/Dashboard'
         element={
-          <div>Dashboard</div>
+            <DashboardLayout>
+              <Dashboard username={'gimbald'} village='cikarang,bekasi,jawa barat'/>
+            </DashboardLayout>
         }/>
       </Routes>
     </BrowserRouter>

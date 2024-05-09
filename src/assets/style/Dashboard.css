@@ -1,0 +1,14 @@
+#outer-container{
+    width: full;
+    height: full;
+    border: 2px solid greenyellow;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 3fr;
+    grid-template-rows: 1fr,1fr,1fr,1fr;
+    grid-template-areas:
+    "searchbox" "searcbox" ""
+    "content-dasboard" "content-dasboard" "content-dasboard" 
+    "content-dashboard" "content-dashboard" "content-dashboard" 
+    ;
+}
