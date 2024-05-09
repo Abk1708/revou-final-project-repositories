@@ -8,7 +8,7 @@ function TechNews() {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [searchInitiated, setSearchInitiated] = useState(false);
-  const API_KEY = 'a9673c048d3985c865d4f1d94513c8f0'; // Replace with your actual API key
+  const API_KEY = import.meta.env.VITE_NEWS_API_KEY; // Replace with your actual API key
 
   useEffect(() => {
     if (searchInitiated) {
