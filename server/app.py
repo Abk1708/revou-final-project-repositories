@@ -3,7 +3,8 @@ from flask import Flask, render_template
 from extensions import db, mail, login_manager
 from features.auth.routes import init_jwt
 from features.auth import auth_bp 
-from features.news.routes import news_bp  
+from features.news.routes import news_bp
+from features.service_form import service_bp
 import logging
 from logging.handlers import RotatingFileHandler
 
@@ -25,7 +26,7 @@ def create_app():
 
     # Application configuration
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.urandom(16))
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI', 'mysql://tfv_user:techforvillage@127.0.0.1/User')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI', 'mysql://service_admin:adminservice@127.0.0.1/User')
     app.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
@@ -42,7 +43,8 @@ def create_app():
 
     # Blueprints
     app.register_blueprint(auth_bp, url_prefix='/auth')  
-    app.register_blueprint(news_bp, url_prefix='/news')  
+    app.register_blueprint(news_bp, url_prefix='/news')
+    app.register_blueprint(service_bp, url_prefix='/service')
 
     @app.route('/api')
     def index():
