@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import flash, jsonify, redirect, request, url_for
+from flask import current_app, flash, jsonify, redirect, request, url_for, render_template_string
 from flask import current_app as app
 from flask_login import login_required, login_user, logout_user
 from extensions import login_manager, db, mail
@@ -9,6 +9,7 @@ from .forms import RegistrationForm
 from .models import User, Gender
 from datetime import datetime
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
+from mail import send_verification_email
 from flask_mail import Message
 from flask_jwt import JWT, jwt_required, current_identity
 import enum
@@ -30,7 +31,7 @@ def get_user_by_username(username):
 def verify_token(token):
     s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     try:
-        data = s.loads(token, salt='auth-token', max_age=3600)  # Token valid for 1 hour
+        data = s.loads(token, salt='auth-token')  # Token valid for 1 hour
         return User.query.get(data['user_id'])
     except (SignatureExpired, BadSignature):
         return None
@@ -108,35 +109,32 @@ def register():
 
             new_user = User(
                 username=data['username'], 
-                password_hash=generate_password_hash(data['password'], method='sha256'),
+                password_hash=data['password'],
                 first_name=data['first_name'],
                 last_name=data['last_name'],
                 birth_date=datetime.strptime(data['birth_date'], '%d-%m-%Y').date(),
                 email=data['email'],
                 gender=Gender[data['gender']]
             )
-            new_user.set_password(data['password'])
             db.session.add(new_user)
             db.session.commit()
+            
+            # Generate verification token and link
+            serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+            token = serializer.dumps(new_user.email, salt='email-confirm')
+            verification_link = url_for('auth.confirm_email', token=token, _external=True)
 
-            # Email sending logic with debug information
-            token = URLSafeTimedSerializer(app.config['SECRET_KEY']).dumps(data['email'], salt='email-confirm')
-            msg = Message('Confirm Email', sender='tech.for.village@outlook.com', recipients=[data['email']])
-            msg.body = f'Click on the link to confirm your email: {url_for("auth.confirm_email", token=token, _external=True)}'
-            mail.send(msg)
+            # Send verification email
+            send_verification_email(new_user.email, verification_link)            
             
             return jsonify(success=True, message='Account created successfully, please check your email to confirm your account'), 201
         else:
-            # Collect form errors
-            errors = []
-            for field, messages in form.errors.items():
-                for message in messages:
-                    errors.append(f"{field}: {message}")
+            errors = [{'field': field, 'message': msg} for field, messages in form.errors.items() for msg in messages]
             return jsonify(success=False, message="Invalid form data", errors=errors), 400
     except Exception as e:
-        app.logger.error(f"Exception occurred: {str(e)}")
+        current_app.logger.error(f"Exception occurred: {str(e)}")
         return jsonify(success=False, message=f"An error occurred: {str(e)}"), 500
-
+    
         
 @auth.route('/confirm/<token>')
 def confirm_email(token):

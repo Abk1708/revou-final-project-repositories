@@ -34,3 +34,4 @@
 [SQL: INSERT INTO user (username, password_hash, first_name, last_name, birth_date, email, gender, confirmed) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)]
 [parameters: ('test_username103', 'pbkdf2:sha256:600000$5TAl4i1miM162xx1$32df82fc8c4fd2c292b83317bb868fbf5768b82445a0b6f2dcc2368d9b05e900', 'First_Name', 'Last_Name', datetime.date(2000, 1, 1), 'alvidofaisal@hotmail.com', 'MALE', 0)]
 (Background on this error at: https://sqlalche.me/e/14/gkpj) [in /home/ombah/revou-final-project-repositories/server/features/auth/routes.py:127]
+2024-05-10 02:25:30,273 ERROR: Exception occurred: auth/templates/email_verification_template.html [in /home/ombah/revou-final-project-repositories/server/features/auth/routes.py:135]
