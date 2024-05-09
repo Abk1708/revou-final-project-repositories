@@ -25,7 +25,7 @@ def create_app():
 
     # Application configuration
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.urandom(16))
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI', 'mysql://tfv_user:techforvillage@127.0.0.1/User')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI', 'mysql://service_admin:adminservice@127.0.0.1/User')
     app.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
