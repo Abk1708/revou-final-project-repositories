@@ -6,13 +6,32 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
  // Import bcrypt library
 
+ interface UserData {
+  fullname: string;
+  username: string;
+  email: string;
+  password: string;
+  gender: string;
+  birthdate: string;
+}
+
+interface FormData {
+  fullname: string;
+  username: string;
+  email: string;
+  password: string;
+  gender: string;
+  birthdate: string;
+}
+
+
 const Register = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   // const [formData, setFormData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data:UserData) => {
     setIsSubmitting(true);
     try {
       const userData = { ...data};

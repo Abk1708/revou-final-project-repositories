@@ -1,4 +1,3 @@
-import agriculture from "../assets/agriculture.png";
 import tracktorsforservice from "../assets/Traacktors for service.webp";
 import irrigationforservice from "../assets/lumin-osity-6DMht7wYt6g-unsplash.webp";
 import greenhouse from "../assets/devi-puspita-amartha-yahya-DViG1hfL1-w-unsplash.webp";
