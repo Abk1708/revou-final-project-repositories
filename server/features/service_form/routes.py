@@ -8,9 +8,13 @@ from datetime import datetime
 from flask_jwt import JWT, jwt_required, current_identity
     
 @service.route('/ourService/dashboard', methods=['POST'])
-# @login_required
-# @jwt_required
+@login_required
+@jwt_required
 def post_form():
+    bearer_token = request.headers.get('token')
+    if not bearer_token:
+        return jsonify({"error": "Account hasn't verified"}), 404
+    
     data = request.get_json()
     new_reserver = Service_Form(
             fullname=data['fullname'],
@@ -29,7 +33,7 @@ def post_form():
         return jsonify(success=False, message='Database error: {}'.format(str(e))), 500 
     
 @service.route('/costumer', methods=['GET'])
-# @login_required
+@login_required
 # @jwt_required
 def fetch_reservation_information():
     # reservation = Service_Form.query.get(id).all()
@@ -44,7 +48,6 @@ def fetch_reservation_information():
     reservation_list = []
     for reserve in reservation:
         reservation_data = {
-            'id': reserve.id,
             'fullname': reserve.fullname,
             'village_name': reserve.village_name,
             'services': reserve.services.name
@@ -54,22 +57,42 @@ def fetch_reservation_information():
     
     return jsonify(success = True, message = "Success fetching all reservations", data = reservation_list), 201
 
-@service.route("/costumer/<fullname>", methods=['GET'])
-# @login_required
-# @jwt_required
-def fetch_reservation_information_by_fullname(fullname):
-    reservation = Service_Form.query.get(fullname)
-    if not reservation:
-        return jsonify({"error": "Reservation not found"}), 404
-    # if reservation.id != current_user.id:
-    #     return jsonify({"error": "Unauthorized"}), 403
+# @service.route("/costumer/<fullname>", methods=['GET'])
+# # @login_required
+# # @jwt_required
+# def fetch_reservation_information_by_bearer_token(fullname):
+#     reservation = Service_Form.query.get(fullname)
+#     bearer_token = request.headers.get('Token')
+#     if not reservation:
+#         return jsonify({"error": "Reservation not found"}), 404
+#     # if reservation.id != current_user.id:
+#     #     return jsonify({"error": "Unauthorized"}), 403
     
-    reservation_data = {
-            'id': reservation.id,
-            'fullname': reservation.fullname,
-            'village_name': reservation.village_name,
-            'services': reservation.services.name
-        }
+#     reservation_data = {
+#             'fullname': reservation.fullname,
+#             'village_name': reservation.village_name,
+#             'services': reservation.services.name
+#         }
     
-    return jsonify({"message": "Success fetching specific reservation", "reservation": reservation_data})
+#     return jsonify({"message": "Success fetching specific reservation", "reservation": reservation_data})
 
+# @service.route("/costumer/<fullname>", methods=['DELETE'])
+# # @login_required
+# def cancel_reservation(fullname):
+#     # user_id = current_user.id
+#     # connection = engine.connect()
+#     # Session = sessionmaker(connection)
+#     # session = Session()
+#     # session.begin()
+    
+#     reservation = Service_Form.query.get(fullname)
+#     if not reservation:
+#         return jsonify({"error": "Reservation not found"}), 404
+
+#     try: 
+#         db.session.delete(reservation)
+#         db.session.commit()
+#         return jsonify({'message': 'Account deleted successfully'}), 200
+#     except Exception as e:
+#         db.session.rollback()
+#         return jsonify({"error": str(e)}), 500
