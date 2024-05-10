@@ -73,6 +73,24 @@ def test_logout(client):
     
     assert response.status_code == 200
     assert b'success' in response.data
+    
+# Delete account test
+def test_delete_account(client):
+    # Log in the user
+    login_response = client.post('/auth/login', json={'username': 'dummy', 'password': 'Dummy123'})
+    assert login_response.status_code == 200
+    assert b'success' in login_response.data
+
+    # Attempt to delete the account
+    delete_response = client.post('/auth/delete_account')
+    assert delete_response.status_code == 200
+    assert b'Your account has been deleted successfully.' in delete_response.data
+
+    # Verify that the user can no longer log in
+    relogin_response = client.post('/auth/login', json={'username': 'dummy', 'password': 'Dummy123'})
+    assert relogin_response.status_code == 400  # Or appropriate status code if user not found or account is deleted
+    assert b'Please check your login details and try again' in relogin_response.data
+
 
 ########## NEWS TEST ##########
 

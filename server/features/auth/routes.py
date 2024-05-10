@@ -1,7 +1,7 @@
 from functools import wraps
 from flask import current_app, flash, jsonify, redirect, request, url_for, render_template_string
 from flask import current_app as app
-from flask_login import login_required, login_user, logout_user
+from flask_login import current_user, login_required, login_user, logout_user
 from extensions import login_manager, db, mail
 from werkzeug.security import check_password_hash, generate_password_hash
 from . import auth_bp as auth
@@ -157,6 +157,20 @@ def confirm_email(token):
         db.session.commit()
         login_user(user)
         return jsonify(success=True, message='You have confirmed your account. Thanks!'), 201
+    
+@auth.route('/delete_account', methods=['POST'])
+@login_required
+def delete_account():
+    user = current_user
+    
+    if not user:
+        return jsonify(success=False, manage="User not found."), 404
+    
+    db.session.delete(user)
+    db.session.commit()
+    logout_user() 
+    
+    return jsonify(success=True, message="Your account has been deleted successfully.")
 
 @auth.route('/logout')
 @login_required
