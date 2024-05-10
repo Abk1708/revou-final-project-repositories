@@ -1,39 +1,46 @@
-import { Link, useNavigate } from "react-router-dom"
-import banner from '../assets/paolo-nicolello---0RlqBni6g-unsplash.jpg'
-import Arrow from '../assets/previous.png'
+
+import { Link, useNavigate } from 'react-router-dom';
+import banner from '../assets/paolo-nicolello---0RlqBni6g-unsplash.jpg';
+import Arrow from '../assets/previous.png';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import axios from "axios";
-import { useState } from "react";
+import axios from 'axios';
 
 const schema = z.object({
-  Username:z.string().min(5,'Username too short'),
-  email: z.string().email('Invalid email').min(3,'Email too short'),
-  password:z.string().min(6, 'Password too short'),
+  Username: z.string().min(5, 'Username too short'),
+  email: z.string().email('Invalid email').min(3, 'Email too short'),
+  password: z.string().min(6, 'Password too short'),
 });
 
+type FormData = {
+  Username: string;
+  email: string;
+  password: string;
+};
+
+
 const Login = () => {
-  const [error, setError] = useState<null |string>(null);
-  const {register, handleSubmit, formState:{ errors }}=useForm({
-    resolver:zodResolver(schema),
-  })
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
   const handleClickBack = () => {
-    navigate('/')
-  }
+    navigate('/');
+  };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: { Username: string; email: string; password: string }) => {
     try {
-      const response = await axios.post("api-url", data);
-      const { token, expiresIn } = response.data; // Assuming the token and expiresIn are returned from the API
-      const expiryTime = Date.now() + expiresIn * 1000; // Convert expiresIn to milliseconds and add to current time
+      const response = await axios.post('api-url', data);
+      const { token, expiresIn } = response.data;
+      const expiryTime = Date.now() + expiresIn * 1000;
       localStorage.setItem('token', token);
       localStorage.setItem('tokenExpiry', expiryTime.toString());
       // Redirect the user or perform other actions based on successful login
+      navigate('/dashboard');
     } catch (error) {
-      setError("Invalid email or password");
       console.error(error);
     }
   };
@@ -89,6 +96,6 @@ const Login = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Login
+export default Login;

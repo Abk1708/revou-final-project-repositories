@@ -2,8 +2,35 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloud, faSun, faWind, faTint } from '@fortawesome/free-solid-svg-icons';
 
+interface WeatherResponse {
+  location: LocationInfo;
+  current: CurrentWeatherInfo;
+}
+
+interface LocationInfo {
+  name: string;
+}
+
+interface CurrentWeatherInfo {
+  temp_c: number;
+  condition: ConditionInfo;
+  wind_kph: number;
+  wind_dir: string;
+  humidity: number;
+
+}
+
+interface ConditionInfo {
+  text: string;
+
+}
+
+
+
+
+
 const WeatherApp = () => {
-  const [weather, setWeather] = useState(null);
+  const [weather, setWeather] = useState<WeatherResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const API_KEY = process.env.VITE_WEATHER_API_KEY;
 
@@ -21,7 +48,7 @@ const WeatherApp = () => {
     };
 
     fetchWeather();
-  }, []);
+  }, [API_KEY]);
 
   if (loading) {
     return <div>Loading...</div>;
