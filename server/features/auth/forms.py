@@ -29,6 +29,11 @@ class RegistrationForm(FlaskForm):
     gender = SelectField('Gender', choices=[(Gender.MALE.name, 'Male'), (Gender.FEMALE.name, 'Female')], validators=[DataRequired()])
     submit = SubmitField('Sign Up') 
 
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError('This username is already taken. Please choose a different one.')
+
     def validate_password(self, password):
         if len(password.data) < 6:
             raise ValidationError('Password must be at least 6 characters long.')
