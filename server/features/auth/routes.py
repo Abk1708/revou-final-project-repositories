@@ -107,11 +107,6 @@ def register():
         data = request.get_json()
         form = RegistrationForm(data=data)
         if form.validate():
-            # existing user check moved here to provide specific error message
-            user = get_user_by_username(data.get('username'))
-            if user:
-                return jsonify(success=False, message='Username already exists'), 400
-
             new_user = User(
                 username=data['username'], 
                 password_hash=generate_password_hash(data['password']),  # Ensure password is hashed
@@ -127,10 +122,9 @@ def register():
             # Generate verification token and link
             serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
             token = serializer.dumps(new_user.email, salt='email-confirm')
-            verification_link = url_for('auth.confirm_email', token=token, _external=True)
 
             # Send verification email
-            send_verification_email(new_user.email, verification_link)            
+            send_verification_email(new_user.email, token)            
             
             return jsonify(success=True, message='Account created successfully, please check your email to confirm your account'), 201
         else:
