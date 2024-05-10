@@ -30,20 +30,20 @@ function TechNews() {
   };
 
 
+
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
-    setSearchQuery(''); // Clear search query when category is selected
-    setSearchInitiated(true); // Set searchInitiated to true when a category is selected
-  };
+    setSearchQuery(''); 
+    setSearchInitiated(true); 
+  }
 
   const handleSearchButtonClick = () => {
-    setSearchInitiated(true); // Set searchInitiated to true when the search button is clicked
+    setSearchInitiated(true); //triger search buton 
   };
 
   const handleFavoriteClick = () => {
-    // Fetch favorite news from local storage and update state accordingly
+    // Fetch favorite 
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    // Handle the fetched favorites data as needed
     console.log('Favorite News:', favorites);
   };
 
