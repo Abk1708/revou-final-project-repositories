@@ -13,4 +13,4 @@ flask-mail==0.9.1
 flask-jwt==0.3.2
 email-validator==2.1.1
 faker==25.1.0
-mariadb==1.1.10
+# mariadb==1.1.10
