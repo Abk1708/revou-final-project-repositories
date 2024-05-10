@@ -5,7 +5,7 @@ import NewsCard from '../components/NewsCard/NewsCard';
 
 function TechNews() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<unknown[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [searchInitiated, setSearchInitiated] = useState(false);
 
@@ -22,7 +22,7 @@ function TechNews() {
 
   const handleSearch = async (query: string) => {
     try {
-      const response = await axios.get(`https://gnews.io/api/v4/search?q=${query}&lang=en&country=us&max=20&apikey=${process.env.VITE_NEWS_API_KEY}`);
+      const response = await axios.get(`https://gnews.io/api/v4/search?q=${query}&lang=en&country=us&max=20&apikey=${import.meta.env.VITE_NEWS_API_KEY}`);
       setSearchResults(response.data.articles);
     } catch (error) {
       console.error('Error fetching news:', error);
