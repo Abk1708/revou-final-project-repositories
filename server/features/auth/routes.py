@@ -163,13 +163,13 @@ def confirm_email(token):
         login_user(user)
         return jsonify(success=True, message='You have confirmed your account. Thanks!'), 201
     
-@auth.route('/delete_account', methods=['POST'])
+@auth.route('/delete_account', methods=['DELETE'])  
 @login_required
 def delete_account():
-    user = current_user
+    user = current_user  
     
     if not user:
-        return jsonify(success=False, manage="User not found."), 404
+        return jsonify(success=False, message="User not found."), 404
     
     db.session.delete(user)
     db.session.commit()
