@@ -10,11 +10,7 @@ const Navigation = () => {
     const handleToggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
-
-    // const handleMenuItemClick = () => {
-    //     setIsMenuOpen(false); // Close the menu when a menu item is clicked
-    // };
-
+    
     const handleLogin = () => {
         navigate('/login')
     }

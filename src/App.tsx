@@ -11,6 +11,7 @@ import OurCostumer from './view/Our-Costumer';
 import Login from './view/Login';
 import Register from './view/Register';
 import Dashboard from './view/Dashboard';
+import ServiceForm from './view/ServiceForm';
 
 
 
@@ -72,6 +73,14 @@ function App() {
                   <Dashboard username={'gimbald'} village='cikarang,bekasi,jawa barat'/>
                 </DashboardLayout>
             }/>
+            <Route
+            path='/ServiceForm'
+            element={
+              <MainLayout>
+                <ServiceForm/>
+              </MainLayout>
+            }
+            />
           </Routes>
         </BrowserRouter>
     </AuthProvider>
