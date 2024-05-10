@@ -7,9 +7,9 @@ interface LayoutProps {
 const DashboardLayout = ({children}:LayoutProps) => {
   return (
     <div>
-    <div className="flex flex-row py-4 px-4 h-screen w-screen">
+    <div className="bg-teal-950 flex flex-row py-4 px-4 h-full w-screen">
         <Dash_nav />
-        <div className="pl-[10px] h-full w-full">
+        <div className="pl-[10px] pr-[20px] h-full w-full">
             {children}
         </div>
     </div>

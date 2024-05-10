@@ -32,7 +32,7 @@ interface ConditionInfo {
 const WeatherApp = () => {
   const [weather, setWeather] = useState<WeatherResponse | null>(null);
   const [loading, setLoading] = useState(true);
-  const API_KEY = process.env.VITE_WEATHER_API_KEY;
+  const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
   useEffect(() => {
     const fetchWeather = async () => {

@@ -37,12 +37,12 @@ function Dash_nav() {
                     <FontAwesomeIcon icon={faShoppingCart} className="w-[25px] h-[25px]"/>
                 </NavLink>
                 </li>
-            </ul>
-            <div className='relative top-[370px] left-[13px]'>
+                <div className='flex'>
                     <button onClick={handleLogout} className="text-gray-300 hover:text-white hover:rounded-full hover:bg-grey-700">
                         <FontAwesomeIcon icon={faRightFromBracket} className="w-[25px] h-[25px]"/>
                     </button>
-            </div>
+                </div>
+            </ul>
         </nav>
     </div>
   )

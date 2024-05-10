@@ -40,10 +40,10 @@ const Section3 = () => {
         {/* Right side content (descriptions) */}
         <div className="flex flex-col w-96 h-100 justify-end items-center bg-slate-900 bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg p-8">
           <div className="text-lg mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Empowering Villages with Technology</h2>
+            <h2 className="text-2xl font-semibold mb-4">Because Smart Technology is Belong to Peapole its' Self</h2>
             <p className='text-xl'>
-              Integer blandit mollis purus, id faucibus velit pulvinar sit amet. Nulla facilisi. Phasellus vel massa mauris.
-              Cras aliquam tempor orci, vitae commodo libero tincidunt nec. Sed sollicitudin nisi nec pretium tempus.
+            Delve into the synergy between smart technology and human ingenuity, where innovation is cultivated by the collective wisdom of communities.
+            As advocates for accessible technology, we embark on a journey to democratize innovation, empowering individuals to harness the transformative potential of technology.
             </p>
           </div>
           <div className="text-lg">

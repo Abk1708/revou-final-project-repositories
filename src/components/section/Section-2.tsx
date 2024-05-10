@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import section2Image from '../../assets/mariana-proenca-mG8sgwkMhCY-unsplash.webp';
-import imageContent from '../../assets/4851530.png'
+import imageContent from '../../assets/4851530-removebg-preview.png'
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -56,15 +56,15 @@ const Section2 = () => {
             <FontAwesomeIcon icon={faLocationDot} style={{color: "red",}} className='w[50px] h-[50px]' />
           </h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar lacinia sapien, eget varius lectus molestie nec.
-            Fusce pellentesque malesuada felis, vel pharetra dui facilisis ut. Vivamus interdum mauris a lectus rhoncus, vitae auctor ligula ultricies.
+          revolutionizing access to technology by partnering directly with village governments, ensuring our application is easily accessible from village to village. Through these partnerships, we bring the power of technology directly to remote communities,
+          making it effortless for residents to connect with essential services, educational resources, and community initiatives
           </p>
         </div>
         <div className="text-lg bg-black mr-5 rounded-lg">
           <h2 className="text-2xl font-semibold mb-4">Empowering Villages with Technology</h2>
           <p>
-            Integer blandit mollis purus, id faucibus velit pulvinar sit amet. Nulla facilisi. Phasellus vel massa mauris.
-            Cras aliquam tempor orci, vitae commodo libero tincidunt nec. Sed sollicitudin nisi nec pretium tempus.
+          Through collaborative efforts with village governments, we're empowering residents with essential digital tools, fostering innovation, and bridging the gap between rural and urban areas.
+          Join us in creating a future where every village thrives in the digital age
           </p>
         </div>
       </div>

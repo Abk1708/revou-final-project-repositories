@@ -52,7 +52,7 @@ const OurService = () => {
         <h1 className="text-3xl font-bold text-center">Our Service</h1>
         <Breadcrumb items={BreadcrumbItem} />
         <div className="mt-8">
-          <Card items={CardRenderItem} />
+          <Card items={CardRenderItem.slice(0.2)} />
         </div>
       </div>
 
@@ -66,7 +66,7 @@ const OurService = () => {
       <div className="container mx-auto px-4 py-12 bg-gray-800">
         <h2 className="text-3xl font-bold text-center text-white">Sustainable Power</h2>
         <div className="mt-8">
-          <Card items={CardRenderItem.slice(0, 2)} />
+          <Card items={CardRenderItem.slice(1, 4)} />
           <div className="mt-8 p-8 bg-yellow-400 text-gray-800 rounded-lg shadow-lg">
             <h3 className="text-2xl font-bold">Sustainable Energy</h3>
             <img src={Sustainable} alt="Sustainable energy icon" className="mx-auto w-20 h-20 mt-4" />
