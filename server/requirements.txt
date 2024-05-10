@@ -3,7 +3,7 @@ Flask-Login==0.6.3
 itsdangerous==2.1.2
 python-dotenv==1.0.1
 requests==2.31.0
-SQLAlchemy==2.0.29
+SQLAlchemy==2.0.30
 Werkzeug==3.0.2
 flask-wtf==1.2.1
 flask-sqlalchemy==2.5.1
