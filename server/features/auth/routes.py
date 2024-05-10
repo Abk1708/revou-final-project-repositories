@@ -12,9 +12,12 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from mail import send_verification_email
 from flask_mail import Message
 from flask_jwt import JWT, jwt_required, current_identity
+import logging
 import enum
 import re
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Set the login view to redirect to for user login
 login_manager.login_view = 'auth.login'
@@ -31,7 +34,7 @@ def get_user_by_username(username):
 def verify_token(token):
     s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     try:
-        data = s.loads(token, salt='auth-token')  # Token valid for 1 hour
+        data = s.loads(token, salt='auth-token'), 36000 
         return User.query.get(data['user_id'])
     except (SignatureExpired, BadSignature):
         return None
@@ -75,6 +78,7 @@ def init_jwt(application):
 
 @auth.route('/login', methods=['POST'])
 def login():
+    logger.info(f"Database URI: {app.config['SQLALCHEMY_DATABASE_URI']}")
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
@@ -83,6 +87,7 @@ def login():
         
     # check if the user is actually exist
     if not user or not check_password_hash(user.password_hash, password):
+        print(user) # debug
         return jsonify(success=False, message='Please check your login details and try again'), 400
     
     if not user.is_active:
@@ -109,7 +114,7 @@ def register():
 
             new_user = User(
                 username=data['username'], 
-                password_hash=data['password'],
+                password_hash=generate_password_hash(data['password']),  # Ensure password is hashed
                 first_name=data['first_name'],
                 last_name=data['last_name'],
                 birth_date=datetime.strptime(data['birth_date'], '%d-%m-%Y').date(),
