@@ -32,7 +32,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-10">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-10 pt-20">
       <div className="flex justify-center items-center w-full max-w-7xl mx-auto">
         <div className="w-3/5 p-8 bg-white shadow-xl rounded-lg">
           <img onClick={handleClick} src={Arrow} className="cursor-pointer w-8 h-8 mb-4 rounded-full p-1 transition duration-300 ease-in-out hover:bg-gray-200" alt="back button" />

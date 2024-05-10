@@ -1,13 +1,11 @@
 import { Link } from "react-router-dom"
 
-
 interface CardItemsProps {
     imageUrl:string;
     title:string;
     description:string;
     to:string
 }
-
 
 function CardItems ({imageUrl,title,description,to}:CardItemsProps) {
   return (
@@ -41,7 +39,7 @@ interface CardProps {
 
 function Card({items}:CardProps){
   return (
-    <div className="flex flex-wrap">
+    <div className="flex flex-wrap justify-center items-center">
       {items.map((item, index) => (
         <CardItems key={index} {...item} />
       ))}

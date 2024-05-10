@@ -48,87 +48,33 @@ const OurService = () => {
 
 
   return (
-    <div>
-      {/* First section */}
-      <section className="bg-slate-800 px-4 py-12 md:px-8 lg:px-16 xl:px-20">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white sm:text-4xl">
-            Our Service
-          </h1>
+    <div className="bg-gray-900 text-white">
+      <div className="container mx-auto px-4 py-12">
+        <h1 className="text-3xl font-bold text-center">Our Service</h1>
+        <Breadcrumb items={BreadcrumbItem} />
+        <div className="mt-8">
+          <Card items={CardRenderItem} />
         </div>
-        {/* breadCrumbs */}
-        <div className="flex flex-row justify-center">
-        <Breadcrumb items={BreadcrumbItem}/>
-        </div>
-        <div className="flex flex-row">
-          {/* hero cards */}
-        <div className="flex-none w-64 mr-4">
-            <div className="service-description bg-green-800 text-center p-8 rounded-lg h-full">
-              <h2 className="text-3xl font-extrabold text-black sm:text-4xl">
-                Tractors & Automation
-              </h2>
-              <img
-                src={agriculture}
-                className="mx-auto mt-6 mb-4 w-16 h-16 sm:w-20 sm:h-20"
-                alt="Agriculture-icon"
-              />
-              <p className="text-gray-100">
-                We support domestic products that help farmers work with
-                sustainable farming cycles.
-              </p>
-            </div>
-          </div>
-        {/* service card */}
-          <div className="flex flex-row">
-            <Card items={CardRenderItem}/>
-          </div>
-        </div>
+      </div>
+
+      <section className="bg-white py-12 text-center">
+        <h2 className="text-3xl font-bold text-gray-900">Sustainable Development Goals</h2>
+        <p className="text-lg px-4 mb-6">Our initiatives align with United Nations strategies to tackle problems through Sustainable Development Goals programs.</p>
+        <img src={sdgEmblems} alt="SDG Logo" className="mx-auto w-48" />
+        <Sdg />
       </section>
 
-{/* Sdg Banner */}
-
-      <section className="bg-white py-5 flex flex-col">
-        <div className="flex flex-col justify-center text-center">
-          <h2 className="text-3xl line-clamp-3 font-extrabold text-sky-500 sm:text-4xl">Sustainable Developer Goals United Nation </h2>
-          <div className=" flex justify-center text-center py-10">
-              <p className=" w-[500px] text-lg font-sans line-clamp-3"> Our initiative has a goals that are alligned with United Nations strategies to overcome problem
-              through Software Development Goals programs</p>
+      <div className="container mx-auto px-4 py-12 bg-gray-800">
+        <h2 className="text-3xl font-bold text-center text-white">Sustainable Power</h2>
+        <div className="mt-8">
+          <Card items={CardRenderItem.slice(0, 2)} />
+          <div className="mt-8 p-8 bg-yellow-400 text-gray-800 rounded-lg shadow-lg">
+            <h3 className="text-2xl font-bold">Sustainable Energy</h3>
+            <img src={Sustainable} alt="Sustainable energy icon" className="mx-auto w-20 h-20 mt-4" />
+            <p>We understand how critical energy issues impact village life and farming.</p>
           </div>
         </div>
-        <div className="flex item-center justify-center py-5">
-            <img className="w-1/4 h-1/4" src={sdgEmblems} alt="SDG Logo" />
-        </div>
-        <div >
-          <Sdg/>
-        </div>
-      </section>
-
-{/* energy Service Section */}
-
-      <section className="bg-slate-800 px-4 py-12 md:px-8 lg:px-16 xl:px-20">
-      <div className="flex flex-row">
-        {/* service card */}
-          <div className="flex flex-row">
-            <Card items={CardRenderItem}/>
-          </div>
-                    {/* hero cards */}
-        <div className="flex-none w-64 mr-4">
-            <div className="service-description bg-yellow-400 text-center p-8 rounded-lg h-full">
-              <h2 className="text-3xl font-extrabold text-grey-500 sm:text-4xl">
-                Sustainable Power
-              </h2>
-              <img
-                src={Sustainable}
-                className="mx-auto mt-6 mb-4 w-16 h-16 sm:w-20 sm:h-20"
-                alt="Agriculture-icon"
-              />
-              <p className="text-gray-100">
-                We understand how critical Energy Problem impact into a village and Farm Live in the village
-              </p>
-            </div>
-        </div>
-        </div>
-      </section>
+      </div>
     </div>
   );
 };

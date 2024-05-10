@@ -39,7 +39,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 pt-20">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap justify-center items-center">
           <div className="bg-white p-8 rounded-lg shadow-lg relative hover:shadow-2xl transition duration-500 w-full max-w-lg">
