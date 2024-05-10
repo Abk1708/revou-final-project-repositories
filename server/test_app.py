@@ -82,7 +82,7 @@ def test_delete_account(client):
     assert b'success' in login_response.data
 
     # Attempt to delete the account
-    delete_response = client.post('/auth/delete_account')
+    delete_response = client.delete('/auth/delete_account')
     assert delete_response.status_code == 200
     assert b'Your account has been deleted successfully.' in delete_response.data
 
