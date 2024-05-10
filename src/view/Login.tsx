@@ -8,9 +8,9 @@ import axios from "axios";
 import { useState } from "react";
 
 const schema = z.object({
-  Username:z.string().min(5,'too short'),
-  email: z.string().email('invalid email').min(3,'too short'),
-  password:z.string().min(6, 'too short'),
+  Username:z.string().min(5,'Username too short'),
+  email: z.string().email('Invalid email').min(3,'Email too short'),
+  password:z.string().min(6, 'Password too short'),
 });
 
 const Login = () => {
@@ -39,58 +39,56 @@ const Login = () => {
   };
 
   return (
-
-    <div>
-      <div className="flex flex-wrap items-center ">
-        <img src={Arrow} onClick={handleClickBack} className="my-4 mx-4 w-[40px] h-[40px] hover:rounded-full hover:bg-black hover:text-white"/>
-        <span>back</span>
-      </div>
-      <div className="flex items-center justify-center py-20">
-        <div className="flex flex-row justify-center items-center h-full mt-10 border-4 rounded-xl object-contain bg-white">
-          <div className="flex flex-col text-center justify-center items-center rounded-lg bg-white">
-            <h2>Login to your account</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-row px-4 py-4 justify-left">
-                <label className="px-4">Username</label>
-                <input className="px-4 py-1 rounded-lg bg-slate-300" type="text" {...register('Username')}/>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-wrap justify-center items-center">
+          <div className="bg-white p-8 rounded-lg shadow-lg relative hover:shadow-2xl transition duration-500 w-full max-w-lg">
+            <div className="mb-4">
+              <img onClick={handleClickBack} src={Arrow} className="cursor-pointer w-8 h-8 mb-4 rounded-full p-1 transition duration-300 ease-in-out hover:bg-gray-200" alt="back button" />
+            </div>
+            <h2 className="text-2xl font-bold text-center mb-6">Login to your account</h2>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <div className="space-y-1">
+                <label className="block text-gray-700">Username</label>
+                <input className="form-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" {...register('Username')} />
                 {errors.Username && (
                   <p>
                     {typeof errors.Username.message === 'string' ? errors.Username.message : ''}
                   </p>
                 )}
               </div>
-              <div className="flex flex-row px-4 py-4 justify-left">
-                <label className="px-4">Email</label>
-                <input className="px-4 py-1 rounded-lg bg-slate-300 border-red-600" type="text" {...register('email')}/>
+              <div className="space-y-1">
+                <label className="block text-gray-700">Email</label>
+                <input className="form-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" type="email" {...register('email')} />
                 {errors.email && (
                   <p>
                     {typeof errors.email.message === 'string' ? errors.email.message : ''}
                   </p>
                 )}
               </div>
-              <div className="flex px-4 py-4 justify-left">
-                <label className="px-4">Password</label>
-                <input className="px-4 py-1 rounded-lg bg-slate-300" type="password" {...register('password')} />
+              <div className="space-y-1">
+                <label className="block text-gray-700">Password</label>
+                <input className="form-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" type="password" {...register('password')} />
                 {errors.password && (
                   <p>
                     {typeof errors.password.message === 'string' ? errors.password.message : ''}
                   </p>
                 )}
               </div>
-              <button className="bg-slate-800 text-white py-1 px-4 rounded-xl hover:bg-blue-500 text-white" type="submit">Login</button>
-              <div className="flex flex-row py-4 px-4">
-                <span>doesnt have account yet ?</span>
-                <Link className="hover:bg-slate-800 hover:text-white hover:rounded-lg hover:px-2" to="/register">Sign up!</Link>
+              <button className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300" type="submit">Login</button>
+              <div className="mt-6 text-center">
+                <span className="text-gray-600">Don't have an account yet?</span>
+                <Link to="/register" className="text-blue-500 hover:underline">Sign up!</Link>
               </div>
             </form>
           </div>
-          <div className=" flex h-full rounded-xl">
-            <img className="flex w-[220px] h-full rounded-lg" src={banner} alt="login banner" />
+          <div className="w-2/6">
+            <img src={banner} className="rounded-lg shadow-xl max-w-full h-auto" alt="login banner" />
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Login

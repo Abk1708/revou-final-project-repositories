@@ -32,89 +32,80 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <div className="flex flex-wrap items-center">
-        <img onClick={handleClick} src={Arrow} className="my-4 mx-4 w-[40px] h-[40px] hover:rounded-full hover:bg-black hover:text-white" alt="back button" />
-        <span>Back</span>
-      </div>
-      <div className="flex items-center justify-center py-20">
-        <div className="flex flex-row justify-center items-center h-full mt-10 border-4 rounded-xl object-contain bg-white">
-          <div className="flex flex-col text-center justify-center items-center rounded-lg bg-white">
-            <h2>Registration</h2>
-            <form className='py-5 px-5' onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex flex-row px-4 py-4 justify-left">
-                <label className="px-4">Full Name</label>
-                <input className="px-4 py-1 rounded-lg bg-slate-300" type="text" {...register('fullname')} />
-                {errors.fullname && (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-10">
+      <div className="flex justify-center items-center w-full max-w-7xl mx-auto">
+        <div className="w-3/5 p-8 bg-white shadow-xl rounded-lg">
+          <img onClick={handleClick} src={Arrow} className="cursor-pointer w-8 h-8 mb-4 rounded-full p-1 transition duration-300 ease-in-out hover:bg-gray-200" alt="back button" />
+          <h2 className="text-2xl font-bold text-center mb-6">Registration</h2>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="flex flex-col">
+              <label className="font-medium text-gray-700">Full Name</label>
+              <input className="form-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" {...register('fullname')} />
+              {errors.fullname && (
                   <p> 
                       {typeof errors.fullname.message === 'string' ? errors.fullname.message : ''}
                   </p>
                 )}
-              </div>
-              <div className="flex flex-row px-4 py-4 justify-left">
-                <label className="px-4">Username</label>
-                <input className="px-4 py-1 rounded-lg bg-slate-300" type="text" {...register('username')} />
-                {errors.username && (
+            </div>
+            <div className="flex flex-col">
+              <label className="font-medium text-gray-700">Username</label>
+              <input className="form-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" {...register('username')} />
+              {errors.username && (
                   <p>
                     {typeof errors.username.message === 'string' ? errors.username.message : ''}
                   </p>
                 )}
-              </div>
-              <div className="flex flex-row px-4 py-4 justify-left">
-                <label className="px-4">Email</label>
-                <input className="px-4 py-1 rounded-lg bg-slate-300" type="text" {...register('email')} />
-                {errors.email && (
+            </div>
+            <div className="flex flex-col">
+              <label className="font-medium text-gray-700">Email</label>
+              <input className="form-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" type="email" {...register('email')} />
+              {errors.email && (
                   <p>
                     {typeof errors.email.message === 'string' ? errors.email.message : ''}
                   </p>
                 )}
-              </div>
-              <div className="flex px-4 py-4 justify-left">
-                <label className="px-4">Password</label>
-                <input className="px-4 py-1 rounded-lg bg-slate-300" type="password" {...register('password')} />
-                {errors.password && (
+            </div>
+            <div className="flex flex-col">
+              <label className="font-medium text-gray-700">Password</label>
+              <input className="form-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" type="password" {...register('password')} />
+              {errors.password && (
                   <p>
                     {typeof errors.password.message === 'string' ? errors.password.message : ''}
                   </p>
                 )}
-              </div>
-              <div className="flex flex-row px-4 py-4 justify-left">
-                <label className="px-4">Gender</label>
-                <select className="px-4 py-1 rounded-lg bg-slate-300" {...register('gender')}>
-                  <option value="">Select gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
-                {errors.gender && (
+            </div>
+            <div className="flex flex-col">
+              <label className="font-medium text-gray-700">Gender</label>
+              <select className="form-select" {...register('gender')}>
+                <option value="">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              {errors.gender && (
                   <p>
                     {typeof errors.gender.message === 'string' ? errors.gender.message : ''}
                   </p>
                 )}
-              </div>
-              <div className="flex flex-row px-4 py-4 justify-left">
-                <label className="px-4">Birth Date</label>
-                <input
-                  className="px-4 py-1 rounded-lg bg-slate-300"
-                  type="date"
-                  {...register('birthdate')}
-                />
-                {errors.birthdate && (
+            </div>
+            <div className="flex flex-col">
+              <label className="font-medium text-gray-700">Birth Date</label>
+              <input className="form-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" type="date" {...register('birthdate')} />
+              {errors.birthdate && (
                   <p>
                     {typeof errors.birthdate.message === 'string' ? errors.birthdate.message : ''}
                   </p>
                 )}
-              </div>
-              <button className="bg-slate-800 text-white py-1 px-4 rounded-xl hover:bg-blue-500" type="submit" disabled={isSubmitting}>Register</button>
-            </form>
-          </div>
-          <div className="flex h-full rounded-xl">
-            <img className="flex w-[220px] h-full rounded-lg" src={banner} alt="registration banner" />
+            </div>
+            <button className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300" type="submit" disabled={isSubmitting}>Register</button>
+          </form>
+          <div className="text-center mt-4">
+            <span>Already have an account?</span>
+            <Link to="/login" className="text-blue-500 hover:underline">Sign in!</Link>
           </div>
         </div>
-      </div>
-      <div className="flex flex-row py-4 px-4">
-        <span>Already have an account?</span>
-        <Link to="/login" className="hover:bg-slate-800 hover:text-white hover:rounded-lg hover:px-2">Sign in!</Link>
+        <div className="w-2/5">
+          <img src={banner} className="rounded-lg shadow-xl max-w-full h-auto" alt="registration banner" />
+        </div>
       </div>
     </div>
   );
