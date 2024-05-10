@@ -9,3 +9,4 @@ def send_verification_email(user_email, token):
     msg = Message('Confirm Your Email', sender='tech.for.village@outlook.com', recipients=[user_email])
     msg.html = html_content
     mail.send(msg)
+
