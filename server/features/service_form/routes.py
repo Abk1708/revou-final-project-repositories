@@ -42,20 +42,21 @@ def fetch_reservation_information():
     # return {'reservations': reservation_data}, 200
     
     reservation_list = []
-    # for reserve in reservation:
-    reservation_data = {
-        'id': reservation.id,
-        'fullname': reservation.fullname,
-        'village_name': reservation.village_name,
-        'service': reservation.account_number
-    }
-    reservation_list.append(reservation_data)
+    for reserve in reservation:
+        reservation_data = {
+            'id': reserve.id,
+            'fullname': reserve.fullname,
+            'village_name': reserve.village_name,
+            'services': reserve.services.name
+        }
+        reservation_list.append(reservation_data)
+        print(reservation_list)
     
     return jsonify(success = True, message = "Success fetching all reservations", data = reservation_list), 201
 
 @service.route("/costumer/<fullname>", methods=['GET'])
-@login_required
-@jwt_required
+# @login_required
+# @jwt_required
 def fetch_reservation_information_by_fullname(fullname):
     reservation = Service_Form.query.get(fullname)
     if not reservation:
@@ -67,7 +68,7 @@ def fetch_reservation_information_by_fullname(fullname):
             'id': reservation.id,
             'fullname': reservation.fullname,
             'village_name': reservation.village_name,
-            'service': reservation.account_number
+            'services': reservation.services.name
         }
     
     return jsonify({"message": "Success fetching specific reservation", "reservation": reservation_data})

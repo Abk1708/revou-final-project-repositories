@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template
-from extensions import db, mail, login_manager
+from extensions import db, mail, login_manager, SQLAlchemy
 from features.auth.routes import init_jwt
 from features.auth import auth_bp 
 from features.news.routes import news_bp
@@ -26,7 +26,7 @@ def create_app():
 
     # Application configuration
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.urandom(16))
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI', 'mysql://service_admin:adminservice@127.0.0.1/User')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('MYSQL_URL')
     app.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True

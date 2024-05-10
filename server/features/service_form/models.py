@@ -13,12 +13,16 @@ class LowerCaseString(types.TypeDecorator):
         return value.lower()
 
 class Service(enum.Enum):
+    def __str__(self):
+        return str(self.value)
     TRACTOR = 1
     IRRIGATION_SYSTEM = 2
     GREENHOUSE_CULTIVATION = 3
     SOLAR_PANEL = 4
     # SERVICE_5 = 5
     # SERVICE_6 = 6
+    
+    
 
 class Service_Form(db.Model):
     __tablename__: 'Service_Form'
