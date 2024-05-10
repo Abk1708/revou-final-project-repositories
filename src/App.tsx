@@ -19,61 +19,61 @@ function App() {
   return (
     <AuthProvider>
         <BrowserRouter>
-      <Routes>
-        <Route 
-        path="/" 
-        element={
-            <HomePage/>
-        }/>
-        <Route
-        path='/login'
-        element={
-          <MainLayout>
-            <Login/>
-          </MainLayout>
-        }
-        />
-        <Route
-        path='/register'
-        element={
-          <MainLayout>
-            <Register/>
-          </MainLayout>
-        }
-        />
-        <Route
-        path='/OurService'
-        element={
-          <MainLayout>
-            <OurService/>
-          </MainLayout>
-        }
-        />
-        <Route
-        path='/techNews'
-        element={
-          <MainLayout>
-            <TechNews />
-          </MainLayout>
-        }
-        />
-        {/* protected layout */}
-        <Route
-        path='/OurCostumer'
-        element={
-          <MainLayout>
-            <OurCostumer/>
-          </MainLayout>
-        }/>
-        <Route
-        path='/Dashboard'
-        element={
-            <DashboardLayout>
-              <Dashboard username={'gimbald'} village='cikarang,bekasi,jawa barat'/>
-            </DashboardLayout>
-        }/>
-      </Routes>
-    </BrowserRouter>
+        <Routes>
+            <Route 
+            path="/" 
+            element={
+                <HomePage/>
+            }/>
+            <Route
+            path='/login'
+            element={
+              <MainLayout>
+                <Login/>
+              </MainLayout>
+            }
+            />
+            <Route
+            path='/register'
+            element={
+              <MainLayout>
+                <Register/>
+              </MainLayout>
+            }
+            />
+            <Route
+            path='/OurService'
+            element={
+              <MainLayout>
+                <OurService/>
+              </MainLayout>
+            }
+            />
+            <Route
+            path='/techNews'
+            element={
+              <MainLayout>
+                <TechNews />
+              </MainLayout>
+            }
+            />
+            {/* protected layout */}
+            <Route
+            path='/OurCostumer'
+            element={
+              <MainLayout>
+                <OurCostumer/>
+              </MainLayout>
+            }/>
+            <Route
+            path='/Dashboard'
+            element={
+                <DashboardLayout>
+                  <Dashboard username={'gimbald'} village='cikarang,bekasi,jawa barat'/>
+                </DashboardLayout>
+            }/>
+          </Routes>
+        </BrowserRouter>
     </AuthProvider>
   );
 }

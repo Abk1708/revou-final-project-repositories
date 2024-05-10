@@ -24,77 +24,59 @@ const Navigation = () => {
     }
 
     const handleLogout = () => {
-        // Implement logout functionality here
-        // For example, clear user authentication state and redirect to logout page
-        // You might also want to call any logout API endpoint if necessary
-        // After logout, you can navigate the user to a specific page, like the homepage
         navigate('/');
     }
 
     return (
-        <nav className="flex flex-row justify-between bg-white dark:bg-black w-full h-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 relative">
-            <div className="hidden md:flex gap-5 items-center pl-4"> {/* laptop or larger */}
-                <Link to="/OurService" className="text-gray-900 rounded hover:bg-gray-100 hover:text-white md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">our service</Link>
-                <Link to="/techNews" className="text-gray-900 rounded hover:bg-gray-100 hover:text-white md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Tech News</Link>
-                <Link to="/OurCostumer" className="text-gray-900 rounded hover:bg-gray-100 hover:text-white md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Our costumer</Link>
-                <Link to="/Dashboard" className="text-gray-900 rounded hover:bg-gray-100 hover:text-white md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Dashboard</Link>
-            </div>
-            <div className="md:hidden absolute top-full bg-white z-10 hover:bg-white py-4 px-2 space-y-2" style={{ display: isMenuOpen ? 'block' : 'none', width: '100%', maxWidth: '100vw', maxHeight: 'calc(100vh - 64px)', overflowY: 'auto' }}>
-                <a href="#" className="block text-gray-900 hover:text-blue-500 hover:bg-gray-200" onClick={handleMenuItemClick}>About Us</a>
-                <a href="#" className="block text-gray-900 hover:text-blue-500 hover:bg-gray-200" onClick={handleMenuItemClick}>Service</a>
-                <a href="#" className="block text-gray-900 hover:text-blue-500 hover:bg-gray-200" onClick={handleMenuItemClick}>Dashboard</a>
-            </div>
-            <div className=' hidden md:flex pl-10 items-center'>
-                <img src="/logo-no-background.png" className="h-14" alt="Tech for Village Logo" />
-            </div>
-            <div className="flex pl-10 items-center"> {/* Show on mobile */}
-                <div>
-                    <a href="http://localhost:5173/" className="block md:hidden flex items-center space-x-3 rtl:space-x-reverse">
-                        <img src="/logo-no-background.png" className="h-14 rounded-xl" alt="Tech for Village Logo" />
-                    </a>
+        <nav className="bg-white dark:bg-gray-900 shadow-md fixed w-full z-10">
+            <div className="container mx-auto px-6 py-3 flex justify-between items-center">
+                <div className="flex justify-between w-full md:w-auto">
+                    <Link to="/" className="text-xl font-semibold text-gray-800 dark:text-white">
+                        <img src="/logo-no-background.png" alt="Tech for Village Logo" className="h-10 md:h-14"></img>
+                    </Link>
+                    <button
+                        type="button"
+                        className="text-gray-800 dark:text-white block md:hidden focus:outline-none"
+                        onClick={handleToggleMenu}
+                    >
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
                 </div>
-            </div>
-            <div className='flex px-5 py-5 border-white-4px'>
-                <button
-                    type="button"
-                    className="block md:hidden text-gray-900 dark:text-white"
-                    onClick={handleToggleMenu}
-                >
-                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                </button>
-            </div>
-            <div className="hidden md:flex items-center pr-4 space-x-3 rtl:space-x-reverse"> {/* tablet and larger */}
-                {/* Conditionally render logout button if user is authenticated */}
-                {isAuthenticated && (
+                <div className="hidden md:flex space-x-8">
+                    <Link to="/OurService" className="text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Our Service</Link>
+                    <Link to="/techNews" className="text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Tech News</Link>
+                    <Link to="/OurCostumer" className="text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Our Customer</Link>
+                    <Link to="/Dashboard" className="text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Dashboard</Link>
+                </div>
+                <div className={`${isMenuOpen ? "flex" : "hidden"} absolute bg-white dark:bg-gray-900 top-full left-0 w-full md:hidden`}>
+                    <Link to="/" className="block p-2 text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800">Home</Link>
+                    <Link to="/about" className="block p-2 text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800">About</Link>
+                    <Link to="/services" className="block p-2 text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800">Services</Link>
+                </div>
+                {isAuthenticated ? (
                     <button
                         onClick={handleLogout}
-                        type="button"
-                        className="text-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:text-blue-700 dark:hover:text-white dark:focus:ring-blue-800 border border-blue-700 hover:bg-blue-700 hover:bg-opacity-10 dark:hover:bg-blue-700 dark:hover:bg-opacity-10"
+                        className="hidden md:block text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
                     >
                         Logout
                     </button>
-                )}
-
-                {/* Conditionally render login and register buttons if user is not authenticated */}
-                {!isAuthenticated && (
-                    <>
+                ) : (
+                    <div className="hidden md:flex space-x-4">
                         <button
                             onClick={handleLogin}
-                            type="button"
-                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
                         >
-                            Get started
+                            Get Started
                         </button>
                         <button
                             onClick={handleRegister}
-                            type="button"
-                            className="text-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:text-blue-700 dark:hover:text-white dark:focus:ring-blue-800 border border-blue-700 hover:bg-blue-700 hover:bg-opacity-10 dark:hover:bg-blue-700 dark:hover:bg-opacity-10"
+                            className="text-blue-600 hover:bg-gray-200 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 bg-white border border-blue-600"
                         >
-                            Already Have Account?
+                            Sign Up
                         </button>
-                    </>
+                    </div>
                 )}
             </div>
         </nav>

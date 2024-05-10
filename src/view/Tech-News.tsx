@@ -8,7 +8,7 @@ function TechNews() {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [searchInitiated, setSearchInitiated] = useState(false);
-  const API_KEY = import.meta.env.VITE_NEWS_API_KEY; // Replace with your actual API key
+
 
   useEffect(() => {
     if (searchInitiated) {
@@ -18,11 +18,11 @@ function TechNews() {
         handleSearch(searchQuery);
       }
     }
-  }, [selectedCategory, searchQuery, searchInitiated]); // Trigger search when selected category or search query changes
+  }, [selectedCategory, searchQuery, searchInitiated]);
 
   const handleSearch = async (query: string) => {
     try {
-      const response = await axios.get(`https://gnews.io/api/v4/search?q=${query}&lang=en&country=us&max=20&apikey=${API_KEY}`);
+      const response = await axios.get(`https://gnews.io/api/v4/search?q=${query}&lang=en&country=us&max=20&apikey=${process.env.VITE_NEWS_API_KEY}`);
       setSearchResults(response.data.articles);
     } catch (error) {
       console.error('Error fetching news:', error);
@@ -30,25 +30,25 @@ function TechNews() {
   };
 
 
+
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
-    setSearchQuery(''); // Clear search query when category is selected
-    setSearchInitiated(true); // Set searchInitiated to true when a category is selected
-  };
+    setSearchQuery(''); 
+    setSearchInitiated(true); 
+  }
 
   const handleSearchButtonClick = () => {
-    setSearchInitiated(true); // Set searchInitiated to true when the search button is clicked
+    setSearchInitiated(true); //triger search buton 
   };
 
   const handleFavoriteClick = () => {
-    // Fetch favorite news from local storage and update state accordingly
+    // Fetch favorite 
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    // Handle the fetched favorites data as needed
     console.log('Favorite News:', favorites);
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex h-full flex-col items-center">
       <header className="w-full py-4 flex justify-center items-center space-x-4 bg-gray-200">
         <h1 className="text-2xl font-semibold">Tech News Dashboard</h1>
         <input
