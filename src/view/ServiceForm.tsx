@@ -29,7 +29,7 @@ const ServiceForm = () => {
   });
 
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = async (data: FormData) => {
@@ -50,6 +50,7 @@ const ServiceForm = () => {
       <div className=" flex flex-col bg-white mt-[50px] bg-opacity-80 p-8 rounded-lg shadow-lg max-w-md w-full">
         <h2 className="text-2xl font-semibold mb-4">Service Form</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {submitting ? 'Submitting...' : 'Submit'}
           <div className="flex flex-col">
             <label className="font-medium text-gray-700">Full Name</label>
             <input className="form-input" type="text" {...register('fullname')} />
