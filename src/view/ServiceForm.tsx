@@ -29,6 +29,7 @@ const ServiceForm = () => {
   });
 
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = async (data: FormData) => {
