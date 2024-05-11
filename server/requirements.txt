@@ -13,3 +13,5 @@ flask-jwt==0.3.2
 email-validator==2.1.1
 faker==25.1.0
 configparser==7.0.0 
+mysqlclient==2.2.4 
+MySQL-python==1.2.5 
